@@ -4,7 +4,7 @@
       background-color: gray;
     }
 
-    .fancy-clock {
+    #clock {
       margin: 20px;
       padding: 20px;
       font-size: 40px;
@@ -28,19 +28,19 @@
     <h1 _ngcontent-wcs-c1>Hello World</h1>
   </div>
 
-  <div class="fancy-clock">
+  <div id="clock">
     <span>The currrent time is:</span>
-    <span id="clock"></span> <span id="offset"></span> hrs
+    <span class="clock"></span> <span class="offset"></span> hrs
   </div>
 
   <script>
-    const $clock = document.getElementById("clock");
-    const $offset = document.getElementById("offset");
+    const $clock = document.getElementsByClassName("clock");
+    const $offset = document.getElementsByClassName("offset");
 
     setInterval(function() {
-      $clock.innerHTML = new Date().toLocaleTimeString();
+      $clock[0].innerHTML = new Date().toLocaleTimeString();
     }, 1000);
 
-    $offset.innerHTML = -new Date().getTimezoneOffset()/60;
+    $offset[0].innerHTML = -new Date().getTimezoneOffset()/60;
   </script>
 </body>

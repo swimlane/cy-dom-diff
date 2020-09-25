@@ -2,99 +2,95 @@ import beautify from 'js-beautify';
 import { getDiffableHTML } from '@open-wc/semantic-dom-diff';
 import { unifiedNoColor } from 'disparity';
 
-import { Matcher, MatcherType } from './matchers'
+// function removeExplanation (text: string) {
+//   return text
+//     .split('\n')
+//     .filter(x => !x.includes('--- removed'))
+//     .filter(x => !x.includes('+++ added'))
+//     .filter(x => !x.includes('@@ '))
+//     .filter(x => !x.includes('No newline at end of file'))
+//     .join('\n')
+//     .replace(/\n+$/, '\n')
+// }
 
-function removeExplanation (text: string) {
-  return text
-    .split('\n')
-    .filter(x => !x.includes('--- removed'))
-    .filter(x => !x.includes('+++ added'))
-    .filter(x => !x.includes('@@ '))
-    .filter(x => !x.includes('No newline at end of file'))
-    .join('\n')
-    .replace(/\n+$/, '\n')
+// function textDifference(value: string, expected: string) {
+//   const textDiff = unifiedNoColor(expected, value, {})
+//   return removeExplanation(textDiff)
+// }
+
+function getSubject($el: any) {
+  return Cypress.dom.isJquery($el) ? $el[0] : $el;
 }
 
-function textDifference(value: string, expected: string) {
-  const textDiff = unifiedNoColor(expected, value, {})
-  return removeExplanation(textDiff)
-}
+const getDomHtml = $el => $el[0].outerHTML;
+const getLightDomHtml = $el => $el.html();
+const getShadowDomHtml = $el => $el[0].shadowRoot.innerHTML;
 
 export const chaiDomMatch = (chai: Chai.ChaiStatic, utils: Chai.ChaiUtils) => {
-  chai.Assertion.overwriteMethod('match', (_super) => {
-    return function (this: any, ...args: any) {
-      // console.log(args);
-      if (args[0] instanceof Matcher) {
-        const matcher = args[0];
-        let source: RegExp;
-        let subject = this._obj;
-        let pattern: string;
-        let $el = subject;
-  
-        switch (matcher.type) {
-          case MatcherType.HTML:
-            subject = getDiffableHTML(subject.html());
-            break;
-          case MatcherType.JSON:
-            subject = beautify.js(JSON.stringify(subject));
-            break
-        }
-        source = matcher.re;
-        pattern = matcher.source;
-  
-        if (Cypress.dom.isJquery(subject)) {
-          subject = beautify.js(subject.text());
-        }
-  
-        const message =  `expect ${subject} to match ${source}`;
-        const isMatch = source.test(subject);
-
-        return this.assert(isMatch, message);
-
-        // if (!isMatch) {
-        //   throw new chai.AssertionError(message,
-        //     {
-        //       actual: subject,
-        //       expected: pattern,
-        //       showDiff: true,
-        //     },
-        //     utils.flag(this, 'ssfi'),
-        //   );
-        // }
-
-        return;
-  
-        // this._obj = subject;
-  
-        // const log = {
-        //   name: 'Match',
-        //   $el,
-        //   message,
-        //   state: match ? 'passed' : 'failed',
-        //   consoleProps: () => {
-        //     return {
-        //       $el,
-        //       subject,
-        //       pattern,
-        //       difference: textDifference(subject, pattern)
-        //     }
-        //   }
-        // };
-  
-        // // @ts-ignore
-        // const current = cy.state('current')
-        // const currentAssertionCommand = current?.get('currentAssertionCommand')
-        // const logs = currentAssertionCommand?.get('logs') || [];
-  
-        // if (logs.length === 0) {
-        //   Cypress.log(log);
-        // } else {
-        //   logs[0].set(log);
-        // }
-
-        // return this.assert(match, message);
-      }
-      return _super.apply(this, args);
-    }
+  chai.Assertion.addProperty('dom', function dom() {
+    // new chai.Assertion(utils.flag(this, 'object')[0].nodeType).to.equal(1);
+    utils.flag(this, 'dom', true);
   });
+
+  chai.Assertion.addProperty('lightDom', function dom() {
+    // new chai.Assertion(utils.flag(this, 'object')[0].nodeType).to.equal(1);
+    utils.flag(this, 'lightDom', true);
+  });
+
+  chai.Assertion.addProperty('shadowHtml', function dom() {
+    // new chai.Assertion(utils.flag(this, 'object')[0].nodeType).to.equal(1);
+    utils.flag(this, 'shadowHtml', true);
+  });
+
+  const assertHtmlEquals = (actual: string, expected: string, negate: boolean, message: string) => {
+    const assertion = new chai.Assertion(getDiffableHTML(actual), message);
+    const expectedDiffableHTML = getDiffableHTML(expected);
+
+    if (negate) {
+      assertion.not.equal(expectedDiffableHTML, message);
+    } else {
+      assertion.equal(expectedDiffableHTML, message);
+    }
+  };
+
+  const domEquals = (_super: any) => function handleDom(this: Chai.AssertionStatic, value: any, message: string, ...args: any[]) {
+    if (utils.flag(this, 'lightDom')) {
+      assertHtmlEquals(getLightDomHtml(this._obj), value, utils.flag(this, 'negate'), message);
+    } else if (utils.flag(this, 'dom')) {
+      assertHtmlEquals(getDomHtml(this._obj), value, utils.flag(this, 'negate'), message); 
+    } else if (utils.flag(this, 'shadowDom')) {
+      assertHtmlEquals(getShadowDomHtml(this._obj), value, utils.flag(this, 'negate'), message);
+    } else {
+      _super.apply(this, [value, message, ...args]);
+    }
+  };
+
+  chai.Assertion.overwriteMethod('equals', domEquals);
+  chai.Assertion.overwriteMethod('equal', domEquals);
+  chai.Assertion.overwriteMethod('eq', domEquals);
+
+  const assertHtmlMatches = (actual: string, expected: RegExp, negate: boolean, message: string) => {
+    const assertion = new chai.Assertion(getDiffableHTML(actual), message);
+
+    if (negate) {
+      assertion.not.match(expected, message);
+    } else {
+      assertion.match(expected, message);
+    }
+  };
+
+  const domMatches = (_super: any) => function handleDom(this: Chai.AssertionStatic, value: any, message: string, ...args: any[]) {
+    if (utils.flag(this, 'lightDom')) {
+      assertHtmlMatches(getLightDomHtml(this._obj), value, utils.flag(this, 'negate'), message);
+    } else if (utils.flag(this, 'dom')) {
+      assertHtmlMatches(getDomHtml(this._obj), value, utils.flag(this, 'negate'), message); 
+    } else if (utils.flag(this, 'shadowDom')) {
+      assertHtmlMatches(getShadowDomHtml(this._obj), value, utils.flag(this, 'negate'), message);
+    } else {
+      _super.apply(this, [value, message, ...args]);
+    }
+  };
+
+  chai.Assertion.overwriteMethod('matches', domMatches);
+  chai.Assertion.overwriteMethod('match', domMatches);
 }
