@@ -1,0 +1,23 @@
+{
+  "name": "cy-match",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "open": "cypress open"
+  },
+  "author": "J. Harshbarger",
+  "license": "MIT",
+  "dependencies": {
+    "@open-wc/semantic-dom-diff": "^0.18.0",
+    "@types/faker": "^5.1.2",
+    "@types/js-beautify": "^1.11.0",
+    "@wildpeaks/snapshot-dom": "^2.0.0",
+    "cypress": "^5.2.0",
+    "disparity": "^3.1.0",
+    "faker": "^5.1.0",
+    "js-beautify": "^1.13.0",
+    "typescript": "^4.0.3"
+  }
+}
