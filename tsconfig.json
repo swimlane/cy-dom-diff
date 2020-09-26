@@ -3,9 +3,9 @@
     "target": "es5",
     "module": "commonjs",
     "strict": true,
-    "lib": ["es2016"],
+    "lib": ["es2016", "dom"],
     "typeRoots": ["node_modules/@types"],
-    "types": ["cypress"],
+    "types": ["cypress", "dom"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true

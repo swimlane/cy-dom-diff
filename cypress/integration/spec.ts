@@ -47,6 +47,11 @@ describe('spec', () => {
     });
 
     describe('element', () => {
+      it('contains', () => {
+        expect(el).dom.contains('Hello World');
+        expect(el).lightDom.to.contain('Hello World');
+      });
+
       it('equals', () => {
         expect(el).dom.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
         expect(el).lightDom.to.equal('<h1>\n  Hello World\n</h1>\n');
@@ -71,6 +76,11 @@ describe('spec', () => {
     });
 
     describe('jQuery node', () => {
+      it('contains', () => {
+        expect($el).dom.contains('Hello World');
+        expect($el).lightDom.to.contains('Hello World');
+      });
+
       it('equals', () => {
         expect($el).dom.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
         expect($el).lightDom.to.equal('<h1>\n  Hello World\n</h1>\n');
@@ -141,9 +151,9 @@ describe('spec', () => {
       cy.get('#clock').should('lightDom.not.matches', html`<span>The currrent time is:</span>\n<span class="clock"></span> <span class="offset">${NUMBER}</span> hrs`);
     });
 
-    it.skip('failing with pattern', () => {
+    it('failing with pattern', () => {
       // cy.get('#test-1').should('have.html', /Goodbye/);
-      cy.get('#test-1').should('dom.equals', html`<h3>Hello ${WORD}</h3>`);
+      cy.get('#test-1').should('lightDom.equals', html`<h3>Hello Earth</h3>`);
     });
   });
 });

@@ -1,24 +1,30 @@
 import { getDiffableHTML } from '@open-wc/semantic-dom-diff';
 
-const getSubject = ($el: any) => Cypress.dom.isJquery($el) ? $el[0] : $el;
+const { isJquery, isElement } = Cypress.dom;
 
-const getDomHtml = ($el: JQuery<any>) => getSubject($el).outerHTML;
-const getLightDomHtml = ($el: JQuery<any>) => getSubject($el).innerHTML;
-const getShadowDomHtml = ($el: JQuery<any>) => getSubject($el).shadowRoot.innerHTML;
+const getDomHtml = ($el: HTMLElement) => $el.outerHTML;
+const getLightDomHtml = ($el: HTMLElement) => $el.innerHTML;
+const getShadowDomHtml = ($el: HTMLElement) => $el.shadowRoot ? $el.shadowRoot.innerHTML : '';
 
 export const chaiDomMatch = (chai: Chai.ChaiStatic, utils: Chai.ChaiUtils) => {
+  function getElement(ctx: Chai.AssertionStatic) {
+    let $el = utils.flag(ctx, 'object');
+    if (isJquery($el)) {
+      $el = $el[0];
+    }
+    new chai.Assertion(isElement($el), `expected ${$el} to be DOM like`).true;
+    return $el;
+  }
+
   chai.Assertion.addProperty('dom', function dom() {
-    const el = utils.flag(this, 'object');
-    utils.flag(this, 'object', getDiffableHTML(getDomHtml(el)));
+    utils.flag(this, 'object', getDiffableHTML(getDomHtml(getElement(this))));
   });
 
   chai.Assertion.addProperty('lightDom', function dom() {
-    const el = utils.flag(this, 'object');
-    utils.flag(this, 'object', getDiffableHTML(getLightDomHtml(el)));
+    utils.flag(this, 'object', getDiffableHTML(getLightDomHtml(getElement(this))));
   });
 
   chai.Assertion.addProperty('shadowHtml', function dom() {
-    const el = utils.flag(this, 'object');
-    utils.flag(this, 'object', getDiffableHTML(getShadowDomHtml(el)));
+    utils.flag(this, 'object', getDiffableHTML(getShadowDomHtml(getElement(this))));
   });
 }
