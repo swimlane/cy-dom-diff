@@ -41,32 +41,60 @@ describe('spec', () => {
 
     before(() => {
       cy.document().then((doc) => {
-        el = doc.getElementById('#test-1');
+        el = doc.getElementById('test-1');
         $el = Cypress.$('#test-1');
       });
     });
 
-    it('equals', () => {
-      expect($el).dom.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
-      expect($el).lightDom.to.equal('<h1>\n  Hello World\n</h1>\n');
+    describe('element', () => {
+      it('equals', () => {
+        expect(el).dom.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
+        expect(el).lightDom.to.equal('<h1>\n  Hello World\n</h1>\n');
+      });
+
+      it('not equals', () => {
+        expect(el).dom.not.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello Earth\n  </h1>\n</div>\n');
+        expect(el).lightDom.to.not.equal('<h1>\n  Hello Earth\n</h1>\n');
+      });
+
+      it('matches', () => {
+        expect(el).dom.matches(/Hello World/);
+        expect(el).dom.to.match(html`<div class="test" id="test-1"><h1>Hello World</h1></div>`);
+        expect(el).lightDom.matches(html`<h1>Hello World</h1>`);
+      });
+
+      it('not matches', () => {
+        expect(el).dom.not.matches(/Hello Earth/);
+        expect(el).dom.to.not.match(html`<div class="test" id="test-1"><h1>Hello Earth</h1></div>`);
+        expect(el).not.lightDom.matches(html`<h1>Hello Earth</h1>`);
+      });      
     });
 
-    it('not equals', () => {
-      expect($el).dom.not.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello Earth\n  </h1>\n</div>\n');
-      expect($el).lightDom.to.not.equal('<h1>\n  Hello Earth\n</h1>\n');
+    describe('jQuery node', () => {
+      it('equals', () => {
+        expect($el).dom.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
+        expect($el).lightDom.to.equal('<h1>\n  Hello World\n</h1>\n');
+      });
+
+      it('not equals', () => {
+        expect($el).dom.not.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello Earth\n  </h1>\n</div>\n');
+        expect($el).lightDom.to.not.equal('<h1>\n  Hello Earth\n</h1>\n');
+      });
+
+      it('matches', () => {
+        expect($el).dom.matches(/Hello World/);
+        expect($el).dom.to.match(html`<div class="test" id="test-1"><h1>Hello World</h1></div>`);
+        expect($el).lightDom.matches(html`<h1>Hello World</h1>`);
+      });
+
+      it('not matches', () => {
+        expect($el).dom.not.matches(/Hello Earth/);
+        expect($el).dom.to.not.match(html`<div class="test" id="test-1"><h1>Hello Earth</h1></div>`);
+        expect($el).not.lightDom.matches(html`<h1>Hello Earth</h1>`);
+      });      
     });
 
-    it('matches', () => {
-      expect($el).dom.matches(/Hello World/);
-      expect($el).dom.to.match(html`<div class="test" id="test-1"><h1>Hello World</h1></div>`);
-      expect($el).lightDom.matches(html`<h1>Hello World</h1>`);
-    });
 
-    it('not matches', () => {
-      expect($el).dom.not.matches(/Hello Earth/);
-      expect($el).dom.to.not.match(html`<div class="test" id="test-1"><h1>Hello Earth</h1></div>`);
-      expect($el).not.lightDom.matches(html`<h1>Hello Earth</h1>`);
-    });
   });
 
   describe.skip('assert', () => {
