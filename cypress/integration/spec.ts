@@ -1,12 +1,10 @@
 
 import faker from 'faker';
-import { chaiDomDiff } from '@open-wc/semantic-dom-diff';
 
 import { chaiDomMatch } from '../../src/assertion';
 import { html } from '../../src/matchers';
 import { NUMBER, WORD, PROP, VALUES } from '../../src/regexps'
 
-// chai.use(chaiDomDiff);
 chai.use(chaiDomMatch);
 
 const TIME = /\d?\d:\d?\d\:\d?\d/;
@@ -49,111 +47,147 @@ describe('spec', () => {
     describe('element', () => {
       it('contains', () => {
         expect(el).dom.contains('Hello World');
-        expect(el).lightDom.to.contain('Hello World');
       });
 
       it('equals', () => {
-        expect(el).dom.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
-        expect(el).lightDom.to.equal('<h1>\n  Hello World\n</h1>\n');
+        expect(el).dom.to.equal('<h1>\n  Hello World\n</h1>\n');
       });
 
       it('not equals', () => {
-        expect(el).dom.not.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello Earth\n  </h1>\n</div>\n');
-        expect(el).lightDom.to.not.equal('<h1>\n  Hello Earth\n</h1>\n');
+        expect(el).dom.to.not.equal('<h1>\n  Hello Earth\n</h1>\n');
       });
 
       it('matches', () => {
         expect(el).dom.matches(/Hello World/);
-        expect(el).dom.to.match(html`<div class="test" id="test-1"><h1>Hello World</h1></div>`);
-        expect(el).lightDom.matches(html`<h1>Hello World</h1>`);
+        expect(el).dom.matches(html`<h1>Hello World</h1>`);
       });
 
       it('not matches', () => {
         expect(el).dom.not.matches(/Hello Earth/);
-        expect(el).dom.to.not.match(html`<div class="test" id="test-1"><h1>Hello Earth</h1></div>`);
-        expect(el).not.lightDom.matches(html`<h1>Hello Earth</h1>`);
-      });      
+        expect(el).dom.does.not.match(html`<h1>Hello Earth</h1>`);
+      });
+      
+      it('fails', () => {
+        cy.fails(() => {
+          expect(el).dom.matches(/Hello Earth/);
+        }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /Hello Earth/`);
+      });
     });
 
     describe('jQuery node', () => {
       it('contains', () => {
         expect($el).dom.contains('Hello World');
-        expect($el).lightDom.to.contains('Hello World');
       });
 
       it('equals', () => {
-        expect($el).dom.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
-        expect($el).lightDom.to.equal('<h1>\n  Hello World\n</h1>\n');
+        expect($el).dom.to.equal('<h1>\n  Hello World\n</h1>\n');
       });
 
       it('not equals', () => {
-        expect($el).dom.not.equals('<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello Earth\n  </h1>\n</div>\n');
-        expect($el).lightDom.to.not.equal('<h1>\n  Hello Earth\n</h1>\n');
+        expect($el).dom.to.not.equal('<h1>\n  Hello Earth\n</h1>\n');
       });
 
       it('matches', () => {
         expect($el).dom.matches(/Hello World/);
-        expect($el).dom.to.match(html`<div class="test" id="test-1"><h1>Hello World</h1></div>`);
-        expect($el).lightDom.matches(html`<h1>Hello World</h1>`);
+
+        expect($el).dom.to.match(html`<h1>Hello World</h1>`);
       });
 
       it('not matches', () => {
         expect($el).dom.not.matches(/Hello Earth/);
-        expect($el).dom.to.not.match(html`<div class="test" id="test-1"><h1>Hello Earth</h1></div>`);
-        expect($el).not.lightDom.matches(html`<h1>Hello Earth</h1>`);
-      });      
-    });
-
-
-  });
-
-  describe.skip('assert', () => {
-    let $el: JQuery<any>;
-
-    before(() => {
-      cy.visit('index.html');
-      cy.document().then((doc) => {
-        $el = Cypress.$('#test-1');
+        expect($el).dom.to.not.match(html`<h1>Hello Earth</h1>`);
+      });
+      
+      it('fails', () => {
+        cy.fails(() => {
+          expect($el).dom.matches(/Hello Earth/);
+        }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /Hello Earth/`);
       });
     });
-
-    it('equals', () => {
-      assert.dom.equals($el, '<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
-      assert.lightDom.equals($el, '<h1>\n  Hello World\n</h1>\n');
-    });
   });
 
-  describe('cypress', () => {
+  describe('cypress assertions', () => {
     it('equals', () => {
-      cy.get('#test-1').should('dom.equals', '<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello World\n  </h1>\n</div>\n');
-      cy.get('#test-1').should('have.lightDom.that.equals', '<h1>\n  Hello World\n</h1>\n');
+      cy.get('#test-1').should('dom.equals', '<h1>\n  Hello World\n</h1>\n');
     });
 
     it('not equals', () => {
-      cy.get('#test-1').should('not.dom.equals', '<div\n  class="test"\n  id="test-1"\n>\n  <h1>\n    Hello Earth\n  </h1>\n</div>\n');
-      cy.get('#test-1').should('have.lightDom.that.does.not.equal', '<h1>\n  Hello Earth\n</h1>\n');
+      cy.get('#test-1').should('not.dom.equals', '<h1>\n  Hello Earth\n</h1>\n');
     });
 
     it('matches', () => {
-      cy.get('#test-1').should('lightDom.matches', html`<h1>Hello World</h1>`);
-      cy.get('#test-2').should('have.lightDom.that.matches', html`<h1>Hello <span class="random-number">${NUMBER}</span></h1>`);
-      cy.get('#test-3').should('lightDom.to.match', html`<h1>Hello <span class="random-word">${WORD}</span></h1>`);
+      cy.get('#test-1').should('dom.matches', html`<h1>Hello World</h1>`);
+      cy.get('#test-2').should('have.dom.that.matches', html`<h1>Hello <span class="random-number">${NUMBER}</span></h1>`);
+      cy.get('#test-3').should('dom.to.match', html`<h1>Hello <span class="random-word">${WORD}</span></h1>`);
 
-      cy.get('#clock').should('dom.matches', html`<div id="clock"><span>The currrent time is:</span>\n<span class="clock">${TIME} ${/[AP]/}M</span> <span class="offset">${NUMBER}</span> hrs</div>`);
-      cy.get('#clock').should('lightDom.matches', html`<span>The currrent time is:</span>\n <span class="clock">${TIME} ${/[AP]/}M</span> <span class="offset">${NUMBER}</span> hrs`);
+      cy.get('#clock').should('dom.matches', html`
+      <span>The currrent time is:</span>
+      <span class="clock">${TIME} ${/[AP]/}M</span>
+      <span class="offset">${NUMBER}</span> hrs`);
     });
 
     it('not matches', () => {
-      cy.get('#test-1').should('lightDom.not.matches', html`<h1>Hello Earth</h1>`);
-      cy.get('#test-2').should('have.lightDom.that.does.not.match', html`<h1>Goodbye <span class="random-number">${NUMBER}</span></h1>`);
-      cy.get('#test-3').should('lightDom.to.not.match', html`<h1>Goodbye <span class="random-word">${WORD}</span></h1>`);
+      cy.get('#test-1').should('dom.not.matches', html`<h1>Hello Earth</h1>`);
+      cy.get('#test-2').should('have.dom.that.does.not.match', html`<h1>Goodbye <span class="random-number">${NUMBER}</span></h1>`);
+      cy.get('#test-3').should('dom.to.not.match', html`<h1>Goodbye <span class="random-word">${WORD}</span></h1>`);
 
-      cy.get('#clock').should('lightDom.not.matches', html`<span>The currrent time is:</span>\n<span class="clock"></span> <span class="offset">${NUMBER}</span> hrs`);
+      cy.get('#clock').should('dom.not.matches', html`<span>The currrent time is:</span>\n<span class="clock"></span> <span class="offset">${NUMBER}</span> hrs`);
     });
 
-    it('failing with pattern', () => {
-      // cy.get('#test-1').should('have.html', /Goodbye/);
-      cy.get('#test-1').should('lightDom.equals', html`<h3>Hello Earth</h3>`);
+    it('fails', () => {
+      cy.fails(() => {
+        cy.get('#test-1').should('dom.matches', html`<h1>Hello Earth</h1>`);
+      }, 'to match');
+
+      cy.fails(() => {
+        cy.get('#test-1').should('dom.matches', html`<h1>Hello ${NUMBER}</h1>`);
+      }, 'to match');
+    });
+  });
+
+  describe('cypress command', () => {
+    it.only('matches', () => {
+      cy.get('#test-1').domMatch(html`<h1>Hello World</h1>`);
+      cy.get('#test-2').domMatch(html`<h1>Hello <span class="random-number">${NUMBER}</span></h1>`);
+      cy.get('#test-3').domMatch(html`<h1>Hello <span class="random-word">${WORD}</span></h1>`);
+
+      cy.get('#clock').domMatch(html`
+      <span>The currrent time is:</span>
+      <span class="clock">${TIME} ${/[AP]/}M</span>
+      <span class="offset">${NUMBER}</span> hrs`);
+
+      const NGCLASS = /c\d\d-\d/;
+      const UUID = /[a-z0-9]+/;
+      const USER = /[a-zA-Z0-9]+/;
+
+      cy.get('#test-6').domMatch(html`
+        <div
+            class="ng-star-inserted ng-tns-${NGCLASS} ng-trigger ng-trigger-stepAnimation"
+            style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+          <img
+            class="logo"
+            src="/dist/${UUID}.svg">
+          <h1 class="ng-tns-${NGCLASS}">
+            Welcome, ${USER}!
+          </h1>
+          <div class="subtext">
+            Let's start.
+          </div>
+          <a
+            class="btn btn-primary"
+            href="/apps"
+            ng-reflect-state="apps"
+            uisref="apps">
+            Start Building
+          </a>
+        </div>
+      `);
+    });
+
+    it('fails', () => {
+      cy.fails(() => {
+        cy.get('#test-5').domMatch(html`<h1>Goodbye ${WORD}</h1><h1>Hello ${NUMBER}</h1>`);
+      }, 'to match');
     });
   });
 });

@@ -11,6 +11,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="test-1" class="test">
     <h1>Hello World</h1>
@@ -28,6 +29,21 @@
     <h1 _ngcontent-wcs-c1>Hello World</h1>
   </div>
 
+  <div id="test-5" class="test">
+    <h1>Goodbye Earth</h1>
+    <h1>Hello World</h1>
+  </div>
+
+  <div id="test-6" class="test">
+    <div class="ng-tns-c19-5 ng-trigger ng-trigger-stepAnimation ng-star-inserted"
+      style="transform: translate3d(0px, 0px, 0px); opacity: 1;"><img class="logo"
+        src="/dist/11794b402aa8acc43046f2c7672befc1.svg">
+      <h1 class="ng-tns-c19-5">Welcome, user!</h1>
+      <div class="subtext">Let's start.</div>
+      <a class="btn btn-primary" uisref="apps" href="/apps" ng-reflect-state="apps">Start Building</a>
+    </div>
+  </div>
+
   <div id="clock">
     <span>The currrent time is:</span>
     <span class="clock"></span> <span class="offset"></span> hrs
@@ -37,10 +53,10 @@
     const $clock = document.getElementsByClassName("clock");
     const $offset = document.getElementsByClassName("offset");
 
-    setInterval(function() {
+    setInterval(function () {
       $clock[0].innerHTML = new Date().toLocaleTimeString();
     }, 1000);
 
-    $offset[0].innerHTML = -new Date().getTimezoneOffset()/60;
+    $offset[0].innerHTML = -new Date().getTimezoneOffset() / 60;
   </script>
 </body>
