@@ -1,11 +1,7 @@
-
 import faker from 'faker';
 
-import { chaiDomMatch } from '../../src/assertion';
-import { html } from '../../src/matchers';
-import { NUMBER, WORD, PROP, VALUES } from '../../src/regexps'
-
-chai.use(chaiDomMatch);
+import { html } from '@swimlane/cy-match/matchers';
+import { NUMBER, WORD, PROP, VALUES } from '@swimlane/cy-match/regexps'
 
 const TIME = /\d?\d:\d?\d\:\d?\d/;
 
@@ -184,7 +180,7 @@ describe('spec', () => {
       `);
     });
 
-    it.only('fails', () => {
+    it('fails', () => {
       // cy.fails(() => {
       //   cy.get('#test-5').domMatch(html`<h1>Goodbye ${WORD}</h1><h1>Hello ${NUMBER}</h1>`);
       // }, 'to match');

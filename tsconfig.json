@@ -19,6 +19,6 @@
     }
   },
   "include": ["src/**/*.ts", "index.d.ts"],
-  "exclude": ["node_modules/**", "cypress/fixtures/**"],
+  "exclude": ["node_modules/**"],
   "compileOnSave": false
 }

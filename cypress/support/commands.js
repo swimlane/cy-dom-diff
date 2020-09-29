@@ -24,7 +24,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-import '../../src/commands';
+import { chaiDomMatch } from '@swimlane/cy-match/assertion';
+import '@swimlane/cy-match/commands';
+
+chai.use(chaiDomMatch);
 
 Cypress.Commands.add('fails', function (fn, message) {
   const failed = `Expected to fail with "${message}"`;
