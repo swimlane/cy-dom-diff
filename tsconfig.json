@@ -1,13 +1,24 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "es5",
     "module": "commonjs",
     "strict": true,
     "lib": ["es2016", "dom"],
     "typeRoots": ["node_modules/@types"],
-    "types": ["cypress", "dom"],
+    "types": ["cypress"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "importHelpers": true
-  }
+    "importHelpers": true,
+    "declaration": false,
+    "outDir": "build/main",
+    "moduleResolution": "node",
+    "paths": {
+      "@swimlane/cy-match": ["src"],
+      "@swimlane/cy-match/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "index.d.ts"],
+  "exclude": ["node_modules/**", "cypress/fixtures/**"],
+  "compileOnSave": false
 }

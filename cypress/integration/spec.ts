@@ -58,8 +58,8 @@ describe('spec', () => {
       });
 
       it('matches', () => {
-        expect(el).dom.matches(/Hello World/);
-        expect(el).dom.matches(html`<h1>Hello World</h1>`);
+        // expect(el).dom.matches(/Hello World/);
+        expect(el).dom.matches(html`<h1>Hello World</h1>`, { test: 123 });
       });
 
       it('not matches', () => {
@@ -146,7 +146,7 @@ describe('spec', () => {
   });
 
   describe('cypress command', () => {
-    it.only('matches', () => {
+    it('matches', () => {
       cy.get('#test-1').domMatch(html`<h1>Hello World</h1>`);
       cy.get('#test-2').domMatch(html`<h1>Hello <span class="random-number">${NUMBER}</span></h1>`);
       cy.get('#test-3').domMatch(html`<h1>Hello <span class="random-word">${WORD}</span></h1>`);
@@ -184,10 +184,39 @@ describe('spec', () => {
       `);
     });
 
-    it('fails', () => {
-      cy.fails(() => {
-        cy.get('#test-5').domMatch(html`<h1>Goodbye ${WORD}</h1><h1>Hello ${NUMBER}</h1>`);
-      }, 'to match');
+    it.only('fails', () => {
+      // cy.fails(() => {
+      //   cy.get('#test-5').domMatch(html`<h1>Goodbye ${WORD}</h1><h1>Hello ${NUMBER}</h1>`);
+      // }, 'to match');
+
+      const NGCLASS = /c\d\d-\d/;
+      const UUID = /[a-z0-9]+/;
+      const USER = /[a-zA-Z0-9]+/;
+
+      // cy.fails(() => {
+        cy.get('#test-6').domDiff(html`
+        <div
+            class="ng-star-inserted ng-tns-${NGCLASS} ng-trigger ng-trigger-stepAnimation"
+            style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+          <img
+            class="logo"
+            src="/dist/${UUID}.svg">
+          <h1 class="ng-${NGCLASS}">
+            Welcome, ${USER}!
+          </h1>
+          <div class="subtext">
+            Let's start.
+          </div>
+          <a
+            class="btn btn-primary"
+            href="/apps"
+            ng-reflect-state="apps"
+            uisref="apps">
+            Start Building
+          </a>
+        </div>
+      `);
+      // }, 'to match');
     });
   });
 });

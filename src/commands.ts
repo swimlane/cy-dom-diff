@@ -1,27 +1,9 @@
-import { getDiffableHTML } from '@open-wc/semantic-dom-diff';
-import disparity from 'disparity';
 import { PatternRegExp } from './matchers';
-import { getDom } from './util';
-
-function removeExplanation (text: string) {
-  return text
-    .split('\n')
-    .filter(x => !x.includes('--- removed'))
-    .filter(x => !x.includes('+++ added'))
-    .filter(x => !x.includes('@@ '))
-    .filter(x => !x.includes('No newline at end of file'))
-    .join('\n')
-    .replace(/\n+$/, '\n');
-}
-
-function textDifference(expected: string, value: string) {
-  const textDiff = disparity.unifiedNoColor(expected, value, {})
-  return removeExplanation(textDiff)
-}
+import { clean, diff, getDom } from './util';
 
 function logDiff(subject: any, re: PatternRegExp) {
-  const d = getDiffableHTML(getDom(subject));
-  const diff = textDifference(d, re.pattern);
+  const a = clean(getDom(subject));
+  const d = diff(a, re.rec(a));
 
   Cypress.log({
     name: 'Dom Diff',
@@ -30,25 +12,34 @@ function logDiff(subject: any, re: PatternRegExp) {
     state: 'failed',
     consoleProps: () => {
       return {
-        Difference: diff
-      }
-    }
-  }); 
+        Pattern: re.pattern,
+        Regexp: re,
+        Actual: a,
+        Difference: d,
+      };
+    },
+  });
 }
 
-Cypress.Commands.add('domDiff', { prevSubject: 'element'}, logDiff);
+Cypress.Commands.add('domDiff', { prevSubject: 'element' }, logDiff);
 
-Cypress.Commands.add('domMatch', { prevSubject: 'element'}, (subject: any, re: PatternRegExp) => {
-  cy.wrap(subject).should((el: any) => {
-    try {
-      expect(el).dom.to.match(re);
-    } catch (e) {
-      setTimeout(() => {
-        if (!e.onFail) {
-          logDiff(subject, re)
-        }
-      });
-      throw e;
-    }
-  });
-});
+Cypress.Commands.add(
+  'domMatch',
+  { prevSubject: 'element' },
+  (subject: any, re: PatternRegExp) => {
+    cy.wrap(subject).should((el: any) => {
+      try {
+        expect(el).dom.to.match(re);
+      } catch (e) {
+        setTimeout(() => {
+          if (!e.onFail) {
+            logDiff(subject, re);
+          }
+        });
+        throw e;
+      }
+
+      logDiff(subject, re);
+    });
+  }
+);
