@@ -30,7 +30,7 @@ export class PatternRegExp extends RegExp {
   };
 }
 
-export function html(strings: TemplateStringsArray, ...args: any[]): RegExp {
+export function html(strings: TemplateStringsArray, ...args: any[]): PatternRegExp {
   const result = [strings[0]];
   args.forEach((arg, i) => {
     result.push(`__arg${i}__`, strings[i + 1]);

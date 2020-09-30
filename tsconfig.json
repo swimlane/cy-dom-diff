@@ -5,17 +5,19 @@
     "module": "commonjs",
     "strict": true,
     "lib": ["es2016", "dom"],
-    "typeRoots": ["node_modules/@types"],
     "types": ["cypress"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "declaration": false,
+    "declaration": true,
     "outDir": "build/main",
     "moduleResolution": "node",
+    "typeRoots": [
+      "./src/types"
+    ],
     "paths": {
-      "@swimlane/cy-match": ["src"],
-      "@swimlane/cy-match/*": ["src/*"]
+      "@swimlane/cy-dom-diff": ["src"],
+      "@swimlane/cy-dom-diff/*": ["src/*"]
     }
   },
   "include": ["src/**/*.ts", "index.d.ts"],

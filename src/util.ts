@@ -1,5 +1,5 @@
 import disparity from 'disparity';
-import { getDiffableHTML } from '@open-wc/semantic-dom-diff';
+import { DiffOptions, getDiffableHTML } from '@open-wc/semantic-dom-diff/get-diffable-html';
 
 const { isJquery, isElement } = Cypress.dom;
 
@@ -13,12 +13,12 @@ export function getDom($el: any) {
   return $el; // TODO: errror
 }
 
-export function clean(html: string) {
+export function clean(html: string, options?: DiffOptions) {
   // const parser = new DOMParser();
   // const doc = parser.parseFromString(html, 'text/html');
   // return getDiffableHTML(doc.body).replace(/\s+/g, '\n').trim()
   // return doc.body.innerHTML.replace(/\s+/g, '\n').trim();
-  return getDiffableHTML(html);
+  return getDiffableHTML(html, options);
 }
 
 function removeExplanation(text: string) {
@@ -35,4 +35,10 @@ function removeExplanation(text: string) {
 export function diff(a: string, b: string) {
   const textDiff = disparity.unifiedNoColor(a, b, {});
   return removeExplanation(textDiff);
+}
+
+export function disambiguateArgs(args: [string | object, object]): [string | undefined, object | undefined] {
+  // @ts-ignore
+  return args.length === 2 ? args :
+    (typeof args[0] === 'object' ? [undefined, args[0]] : [args[0], undefined]);
 }

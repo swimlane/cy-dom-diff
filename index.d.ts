@@ -1,8 +1,2 @@
-/// <reference types="cypress" />
-
-declare namespace Cypress {
-  interface Chainable<Subject> {
-    domDiff(re: RegExp): Chainable<any>
-    domMatch(re: RegExp): Chainable<any>
-  }
-}
+/// <reference path="./src/types/chai-dom.d.ts" />
+/// <reference path="./src/types/cy-commands.d.ts" />

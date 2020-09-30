@@ -1,12 +1,13 @@
 {
-  "name": "cy-match",
-  "version": "1.0.0",
+  "name": "@swimlane/cy-dom-diff",
+  "version": "0.0.0",
   "description": "",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
   "typings": "index.d.ts",
   "files": [
     "build",
+    "src",
     "index.d.ts"
   ],
   "scripts": {
