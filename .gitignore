@@ -1,14 +1,15 @@
 node_modules
-lib
+
 test
-src/**.js
 .idea/*
 
 coverage
 .nyc_output
 *.log
 *.tgz
-*.js
+
+/lib
+/*.js
 
 yarn.lock
 

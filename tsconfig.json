@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "declaration": true,
+    "declaration": false,
     "moduleResolution": "node",
     "typeRoots": [
       "src/types"
