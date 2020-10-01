@@ -1,15 +1,13 @@
 {
   "name": "@swimlane/cy-dom-diff",
   "version": "0.0.0",
-  "description": "",
+  "description": "matching chunks of DOM against HTML; including dynamic content.",
   "main": "index.js",
   "module": "index.js",
   "typings": "src/types/main.d.ts",
   "files": [
     "lib",
     "src",
-    "types",
-    "index.d.ts",
     "index.js",
     "commands.js"
   ],
@@ -52,5 +50,22 @@
   },
   "prettier": {
     "singleQuote": true
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swimlane/cy-dom-diff.git"
+  },
+  "keywords": [
+    "cypress",
+    "commands",
+    "dom-diff",
+    "testing"
+  ],
+  "bugs": {
+    "url": "https://github.com/swimlane/cy-dom-diff/issues"
+  },
+  "homepage": "https://github.com/swimlane/cy-dom-diff#readme"
 }
