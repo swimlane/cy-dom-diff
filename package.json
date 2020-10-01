@@ -2,8 +2,8 @@
   "name": "@swimlane/cy-dom-diff",
   "version": "0.0.0",
   "description": "",
-  "main": "build/main/index.js",
-  "module": "build/module/index.js",
+  "main": "build/index.js",
+  "module": "build/index.js",
   "typings": "index.d.ts",
   "files": [
     "build",
@@ -11,10 +11,8 @@
     "index.d.ts"
   ],
   "scripts": {
-    "clean": "trash build test",
-    "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
+    "clean": "trash ./*.js",
+    "build": "tsc",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",

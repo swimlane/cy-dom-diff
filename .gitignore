@@ -1,5 +1,5 @@
 node_modules
-build
+lib
 test
 src/**.js
 .idea/*
@@ -8,6 +8,7 @@ coverage
 .nyc_output
 *.log
 *.tgz
+*.js
 
 yarn.lock
 

@@ -1,4 +1,4 @@
-import { clean } from './util';
+import { clean } from './lib/util';
 
 function escape(source: RegExp | string) {
   if (source instanceof RegExp) return source.source;

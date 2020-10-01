@@ -1,6 +1,6 @@
 import { DiffOptions } from '@open-wc/semantic-dom-diff/get-diffable-html';
 
-import { getDom, clean, disambiguateArgs } from './util';
+import { getDom, clean, disambiguateArgs } from './lib/util';
 
 export const chaiDomMatch = (chai: Chai.ChaiStatic, utils: Chai.ChaiUtils) => {
   function assertDomMatch(this: Chai.AssertionStatic, re: RegExp, ...args: [string | DiffOptions, DiffOptions]) {

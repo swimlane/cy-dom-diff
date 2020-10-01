@@ -1,6 +1,6 @@
 import { DiffOptions } from '@open-wc/semantic-dom-diff/get-diffable-html';
 import { PatternRegExp } from './matchers';
-import { clean, diff, disambiguateArgs, getDom } from './util';
+import { clean, diff, disambiguateArgs, getDom } from './lib/util';
 
 type Options = Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions> | undefined
 

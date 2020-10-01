@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "target": "es5",
-    "module": "commonjs",
+    "target": "es2017",
+    "outDir": "./",
+    "module": "es2015",
     "strict": true,
-    "lib": ["es2016", "dom"],
+    "lib": ["es2017", "dom"],
     "types": ["cypress"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "declaration": true,
-    "outDir": "build/main",
+    "declaration": false,
     "moduleResolution": "node",
     "typeRoots": [
       "./src/types"
