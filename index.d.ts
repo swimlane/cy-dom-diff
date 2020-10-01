@@ -1,2 +1,2 @@
-/// <reference path="./src/types/chai-dom.d.ts" />
-/// <reference path="./src/types/cy-commands.d.ts" />
+export * from './lib/regexps';
+export * from './lib/matchers';

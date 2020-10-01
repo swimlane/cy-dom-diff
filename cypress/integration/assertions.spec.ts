@@ -1,7 +1,7 @@
 import faker, { time } from 'faker';
 
-import { html } from '../../src/matchers';
-import { NUMBER, WORD } from '../../src/regexps'
+import { html } from '../../src/lib/matchers';
+import { NUMBER, WORD } from '../../src/lib/regexps'
 
 const TIME = /\d?\d:\d?\d\:\d?\d/;
 

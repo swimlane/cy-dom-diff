@@ -2,17 +2,20 @@
   "name": "@swimlane/cy-dom-diff",
   "version": "0.0.0",
   "description": "",
-  "main": "build/index.js",
-  "module": "build/index.js",
-  "typings": "index.d.ts",
+  "main": "index.js",
+  "module": "index.js",
+  "typings": "src/types/main.d.ts",
   "files": [
-    "build",
+    "lib",
     "src",
-    "index.d.ts"
+    "types",
+    "index.d.ts",
+    "index.js",
+    "commands.js"
   ],
   "scripts": {
-    "clean": "trash ./*.js",
-    "build": "tsc",
+    "clean": "trash lib ./*.js",
+    "build": "npm run clean && tsc",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
@@ -21,7 +24,7 @@
     "test:unit": "cypress run",
     "open": "cypress open",
     "version": "chg release -y && git add -A CHANGELOG.md",
-    "np": "np",
+    "np": "np && npm run clean",
     "prepack": "npm run build"
   },
   "author": "J. Harshbarger",

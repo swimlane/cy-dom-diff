@@ -1,5 +1,5 @@
-import { html } from '../../src/matchers';
-import { WORD } from '../../src/regexps';
+import { html } from '../../src/lib/matchers';
+import { WORD } from '../../src/lib/regexps';
 
 describe('html template tag', () => {
   it('generates a regex', () => {

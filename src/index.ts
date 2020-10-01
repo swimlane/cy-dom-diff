@@ -1,7 +1,2 @@
-import { chaiDomMatch } from './assertion';
-import './commands';
-
-chai.use(chaiDomMatch);
-
-export * from './regexps';
-export * from './matchers';
+export * from './lib/regexps';
+export * from './lib/matchers';

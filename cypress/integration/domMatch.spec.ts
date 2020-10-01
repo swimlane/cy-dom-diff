@@ -1,7 +1,7 @@
 import faker from 'faker';
 
-import { html } from '../../src/matchers';
-import { NUMBER, WORD } from '../../src/regexps';
+import { html } from '../../src/lib/matchers';
+import { NUMBER, WORD } from '../../src/lib/regexps';
 
 const NGCLASS = /c\d\d-\d/;
 const UUID = /[a-z0-9]+/;

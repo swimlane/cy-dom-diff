@@ -10,17 +10,17 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "declaration": false,
+    "declaration": true,
     "moduleResolution": "node",
     "typeRoots": [
-      "./src/types"
+      "src/types"
     ],
     "paths": {
       "@swimlane/cy-dom-diff": ["src"],
       "@swimlane/cy-dom-diff/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "index.d.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules/**"],
   "compileOnSave": false
 }
