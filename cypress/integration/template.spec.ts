@@ -1,5 +1,4 @@
-import { html } from '../../src/lib/matchers';
-import { WORD } from '../../src/lib/regexps';
+import { html, WORD } from '@swimlane/cy-dom-diff';
 
 describe('html template tag', () => {
   it('generates a regex', () => {
