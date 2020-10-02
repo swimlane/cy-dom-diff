@@ -1,5 +1,8 @@
 import disparity from 'disparity';
 import { DiffOptions, getDiffableHTML } from '@open-wc/semantic-dom-diff/get-diffable-html';
+import { PatternRegExp } from './matchers';
+
+import * as Diff from 'diff';
 
 const { isJquery, isElement } = Cypress.dom;
 
@@ -10,18 +13,17 @@ export function getDom($el: any) {
   if (isElement($el)) {
     return $el.innerHTML;
   }
-  return $el; // TODO: errror
+  return $el; // TODO: errror?
 }
 
 export function clean(html: string, options?: DiffOptions) {
-  // const parser = new DOMParser();
-  // const doc = parser.parseFromString(html, 'text/html');
-  // return getDiffableHTML(doc.body).replace(/\s+/g, '\n').trim()
-  // return doc.body.innerHTML.replace(/\s+/g, '\n').trim();
   return getDiffableHTML(html, options);
 }
 
 function removeExplanation(text: string) {
+  // remove header
+  text = text.replace(/^([^\n]+)\n([^\n]+)\n/m, '').replace(/--- \t\n/g, '').replace(/\+\+\+ \t\n/g, '');
+
   return text
     .split('\n')
     .filter((x) => !x.includes('--- removed'))
@@ -32,9 +34,17 @@ function removeExplanation(text: string) {
     .replace(/\n+$/, '\n');
 }
 
-export function diff(a: string, b: string) {
-  const textDiff = disparity.unifiedNoColor(a, b, {});
-  return removeExplanation(textDiff);
+export function diff(a: string, b: PatternRegExp) {
+  if (!b.pattern) {
+    throw new Error(`Cannot generate a diff against ${b}`);
+  }
+
+  const options = {
+    comparator: (l: string, r: string) => b.compare(l, r)
+  };
+
+  const changes = Diff.createPatch('', b.pattern, a, '', '', options as any);
+  return removeExplanation(b.replace(changes));
 }
 
 export function disambiguateArgs(args: [string | object, object]): [string | undefined, object | undefined] {

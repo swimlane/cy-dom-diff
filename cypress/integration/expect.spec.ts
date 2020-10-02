@@ -45,7 +45,7 @@ describe('expect', () => {
       }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /Hello Earth/`);
     });
 
-    it.only('fails with message', () => {
+    it('fails with message', () => {
       cy.fails(() => {
         expect(el).domMatch(/Hello Earth/, 'this should match', {});
       }, `this should match`);

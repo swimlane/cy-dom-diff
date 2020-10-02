@@ -9,12 +9,8 @@ chai.use(chaiDomMatch);
 type Options = Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions> | undefined
 
 function logDiff(subject: any, re: PatternRegExp, options?: Options) {
-  if (!re.rec) {
-    throw new Error(`Cannot generate a diff against ${re}`);
-  }
-
   const a = clean(getDom(subject), options);
-  const d = diff(a, re.rec(a));
+  const d = diff(a, re);
 
   Cypress.log({
     name: 'Dom Diff',

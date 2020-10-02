@@ -9,25 +9,26 @@ export class PatternRegExp extends RegExp {
   constructor(
     source: string,
     public readonly pattern: string,
-    public readonly template: RegExp,
     public readonly matchers: any[]
   ) {
     super(source);
   }
 
-  rec = function (this: PatternRegExp, b: string) {
-    let pattern = this.pattern;
-    const m = b.match(this.template);
-    if (m) {
-      m.shift();
-      m.forEach((v, i) => {
-        const s = this.matchers[i];
-        const r = new RegExp(`^${s}$`);
-        pattern = pattern.replace(`__arg${i}__`, r.test(v) ? v : `\${/${s}/}`);
-      });
+  compare = function (this: PatternRegExp, left: string, right: string) {
+    if (right.includes('__arg')) {
+      const source = this.matchers.reduce((acc, m, i) => {
+        return acc.replace(`__arg${i}__`, escape(m));
+      }, escape(right));
+      return new RegExp(source).test(left);
     }
-    return pattern;
-  };
+    return left === right;
+  }
+
+  replace = function (this: PatternRegExp, str: string) {
+    return this.matchers.reduce((acc, m, i) => {
+      return str.replace(`__arg${i}__`, `\${${m}}`);
+    }, str);
+  }
 }
 
 export function html(strings: TemplateStringsArray, ...args: any[]): PatternRegExp {
@@ -36,12 +37,8 @@ export function html(strings: TemplateStringsArray, ...args: any[]): PatternRegE
     result.push(`__arg${i}__`, strings[i + 1]);
   });
   const pattern = clean(result.join(''));
-  let source = escape(pattern);
-  let s0 = source;
-  const matchers = args.map((arg, i) => {
-    source = source.replace(`__arg${i}__`, escape(arg));
-    s0 = s0.replace(`__arg${i}__`, '(.*)');
-    return arg.source || arg;
-  });
-  return new PatternRegExp(`^${source}$`, pattern, new RegExp(s0), matchers);
+  const source = args.reduce((acc, arg, i) => {
+    return acc.replace(`__arg${i}__`, escape(arg));
+  }, escape(pattern));
+  return new PatternRegExp(`^${source}$`, pattern, args);
 }

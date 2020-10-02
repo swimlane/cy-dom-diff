@@ -16,7 +16,7 @@
       "src/types"
     ],
     "paths": {
-      "@swimlane/cy-dom-diff": ["src"],
+      "@swimlane/cy-dom-diff": ["./"],
       "@swimlane/cy-dom-diff/*": ["src/*"]
     }
   },

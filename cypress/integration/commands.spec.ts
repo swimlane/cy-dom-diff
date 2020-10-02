@@ -1,7 +1,10 @@
+// tslint:disable-next-line: no-reference
+/// <reference path="../../src/types/main.d.ts" />
+
 import faker from 'faker';
 
-import { html } from '../../src/lib/matchers';
-import { NUMBER, WORD } from '../../src/lib/regexps';
+// tslint:disable-next-line: no-implicit-dependencies
+import { html, NUMBER, WORD } from '@swimlane/cy-dom-diff';
 
 const NGCLASS = /c\d\d-\d/;
 const UUID = /[a-z0-9]+/;
@@ -112,7 +115,7 @@ describe('cypress command', () => {
     }, 'to match');
   });
 
-  it.only('fails with message', () => {
+  it('fails with message', () => {
     cy.fails(() => {
       cy.get('#test-5').domMatch(html`<h1>Goodbye ${WORD}</h1><h1>Hello ${NUMBER}</h1>`, 'this should match', { timeout: 0 });
     }, 'this should match');
