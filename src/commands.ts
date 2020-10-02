@@ -6,9 +6,17 @@ import { chaiDomMatch } from './lib/assertion';
 
 chai.use(chaiDomMatch);
 
-type Options = Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions> | undefined
+type Options =
+  | Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions>
+  | undefined;
 
-function logDiff(name: string, state: string, $el: any, re: PatternRegExp, options?: Options) {
+function logDiff(
+  name: string,
+  state: string,
+  $el: any,
+  re: PatternRegExp,
+  options?: Options
+) {
   if (!re.pattern) {
     throw new Error(`Cannot generate a diff against ${re}`);
   }
@@ -28,21 +36,28 @@ function logDiff(name: string, state: string, $el: any, re: PatternRegExp, optio
         Subject: $el,
         Expected,
         Actual,
-        Difference
+        Difference,
       };
-    }
+    },
   });
 }
 
-Cypress.Commands.add('domDiff', { prevSubject: 'element' }, ($el: any, re: PatternRegExp, options?: Options) => {
-  logDiff('domDiff', 'passed', $el, re, options);
-});
+Cypress.Commands.add(
+  'domDiff',
+  { prevSubject: 'element' },
+  ($el: any, re: PatternRegExp, options?: Options) => {
+    logDiff('domDiff', 'passed', $el, re, options);
+  }
+);
 
 Cypress.Commands.add(
   'domMatch',
   { prevSubject: 'element' },
   (subject: any, re: PatternRegExp, ...args: [string | Options, Options]) => {
-    const [message, options] = disambiguateArgs(args as any) as [string | undefined, Options | undefined];
+    const [message, options] = disambiguateArgs(args as any) as [
+      string | undefined,
+      Options | undefined
+    ];
 
     cy.wrap(subject, options).should((el: any) => {
       try {

@@ -9,10 +9,10 @@ function escape(source: RegExp | string) {
 function formatPatch(text: string) {
   return text
     .replace(/^([^\n]+)\n([^\n]+)\n/m, '')
-    .replace(/--- \t\n/g, '')     // headers
+    .replace(/--- \t\n/g, '') // headers
     .replace(/\+\+\+ \t\n/g, '')
     .split('\n')
-    .filter((x) => !x.includes('--- removed'))   // Explanation
+    .filter((x) => !x.includes('--- removed')) // Explanation
     .filter((x) => !x.includes('+++ added'))
     .filter((x) => !x.includes('@@ '))
     .filter((x) => !x.includes('No newline at end of file'))
@@ -38,25 +38,28 @@ export class PatternRegExp extends RegExp {
       return new RegExp(source).test(left);
     }
     return left === right;
-  }
+  };
 
   replace = function (this: PatternRegExp, str: string) {
     return this.matchers.reduce((acc, m, i) => {
       return acc.replace(`__arg${i}__`, `\${${m}}`);
     }, str);
-  }
+  };
 
   diff = function (this: PatternRegExp, str: string) {
     const options = {
-      comparator: (l: string, r: string) => this.compare(l, r)
+      comparator: (l: string, r: string) => this.compare(l, r),
     };
 
     const patch = createPatch('', this.pattern, str, '', '', options as any);
     return formatPatch(this.replace(patch));
-  }
+  };
 }
 
-export function html(strings: TemplateStringsArray, ...args: any[]): PatternRegExp {
+export function html(
+  strings: TemplateStringsArray,
+  ...args: any[]
+): PatternRegExp {
   const result = [strings[0]];
   args.forEach((arg, i) => {
     result.push(`__arg${i}__`, strings[i + 1]);
