@@ -1,31 +1,35 @@
 import { DiffOptions } from '@open-wc/semantic-dom-diff/get-diffable-html';
 
 import { PatternRegExp } from './lib/matchers';
-import { clean, diff, disambiguateArgs, getDom } from './lib/util';
+import { clean, disambiguateArgs, getDom } from './lib/util';
 import { chaiDomMatch } from './lib/assertion';
 
 chai.use(chaiDomMatch);
 
 type Options = Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions> | undefined
 
-function logDiff(subject: any, re: PatternRegExp, options?: Options) {
-  const a = clean(getDom(subject), options);
-  const d = diff(a, re);
+function logDiff($el: any, re: PatternRegExp, options?: Options) {
+  if (!re.pattern) {
+    throw new Error(`Cannot generate a diff against ${re}`);
+  }
 
-  Cypress.log({
-    name: 'Dom Diff',
-    displayName: 'Dom Diff',
-    // @ts-ignore
-    state: 'failed',
+  const a = clean(getDom($el), options);
+
+  const log = Cypress.log({
+    name: 'DOM Diff',
+    message: 'DOM Difference',
+    $el,
     consoleProps: () => {
       return {
-        Pattern: re.pattern,
-        Regexp: re,
+        Subject: $el,
+        Expected: re.replace(re.pattern),
         Actual: a,
-        Difference: d,
+        Difference: re.diff(a)
       };
     },
   });
+
+  log.end();
 }
 
 Cypress.Commands.add('domDiff', { prevSubject: 'element' }, logDiff);

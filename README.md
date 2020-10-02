@@ -1,6 +1,10 @@
 # cy-dom-diff
 
-`cy-dom-diff` allows matching chunks of DOM against HTML; including dynamic content.  `cy-dom-diff` consist of two parts.  First is a Cypress command that matches a DOM element against a regular expression.  When a DOM element is matched its HTML is normalized to produce consistent diffable output while maintaining sematic meaning.  This includes:
+`cy-dom-diff` allows matching chunks of DOM against HTML; including dynamic content.
+
+## Introduction
+
+`cy-dom-diff` consist of two parts.  First is a Cypress command that matches a DOM element against a regular expression.  When a DOM element is matched its HTML is normalized to produce consistent diffable output while maintaining sematic meaning.  This includes:
 
 * whitespace and newlines are normalized
 * tags and attributes are printed on individual lines
@@ -39,6 +43,8 @@ cy.get('#clock').domMatch(html`
 ### `cy.domMatch` Cypress command
 
 `cy.domMatch` will run the `domMatch` assertions (see below) and add a Cypress runner log with a diff.
+
+![](diff.png)
 
 ### `cy.domDiff` Cypress command
 

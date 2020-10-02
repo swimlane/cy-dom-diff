@@ -38,7 +38,7 @@ describe('cypress command', () => {
           style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
         <img
           class="logo"
-          src="/dist/${UUID}.svg">
+          src="./${UUID}.png">
         <h1 class="ng-tns-${NGCLASS}">
           Welcome, ${USER}!
         </h1>
@@ -57,15 +57,13 @@ describe('cypress command', () => {
   });
 
   it('uses options', () => {
-    //  ng-reflect-state="apps"
-
     cy.get('#test-6').domMatch(html`
       <div
           class="ng-star-inserted ng-tns-${NGCLASS} ng-trigger ng-trigger-stepAnimation"
           style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
         <img
           class="logo"
-          src="/dist/${UUID}.svg">
+          src="./${UUID}.png">
         <h1 class="ng-tns-${NGCLASS}">
           Welcome, ${USER}!
         </h1>
@@ -96,7 +94,7 @@ describe('cypress command', () => {
           style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
         <img
           class="logo"
-          src="/dist/${UUID}.svg">
+          src="/${UUID}.png">
         <h1 class="ng-${NGCLASS}">
           Welcome, ${USER}!
         </h1>

@@ -1,19 +1,20 @@
 import { html } from '../../src/lib/matchers';
-import { diff, clean } from '../../src/lib/util';
+import { clean } from '../../src/lib/util';
 
+// @ts-ignore
 import unindent from 'unindent';
 
-function f(s: string) {
+function f(s: string): string {
   return unindent(s).trim();
 }
 
-describe('expect', () => {
+describe('diff', () => {
   it('doesnt shows diff when there is none', () => {
-    expect(diff(clean('<div>Hello World</div>'), html`<div>Hello World</div>`)).to.equal('');
+    expect(html`<div>Hello World</div>`.diff(clean('<div>Hello World</div>'))).to.equal('');
   });
 
   it('shows diff in static portions', () => {
-    expect(diff(clean('<div>Hello World</div>'), html`<div>Hello Earth</div>`).trim()).to.equal(f(`
+    expect(html`<div>Hello Earth</div>`.diff(clean('<div>Hello World</div>'))).to.equal(f(`
        <div>
       -  Hello Earth
       +  Hello World
@@ -21,11 +22,11 @@ describe('expect', () => {
   });
 
   it('returns empty string when regex matches', () => {
-    expect(diff(clean('<div>Hello World</div>'), html`<div>Hello ${/[a-zA-Z]+/}</div>`).trim()).to.equal('');
+    expect(html`<div>Hello ${/[a-zA-Z]+/}</div>`.diff(clean('<div>Hello World</div>'))).to.equal('');
   });
 
   it('shows diff in static regexp', () => {
-    expect(diff(clean('<div>Hello 123</div>'), html`<div>Hello ${/[a-zA-Z]+/}</div>`).trim()).to.equal(f(`
+    expect(html`<div>Hello ${/[a-zA-Z]+/}</div>`.diff(clean('<div>Hello 123</div>'))).to.equal(f(`
        <div>
       -  Hello \${/[a-zA-Z]+/}
       +  Hello 123
@@ -33,7 +34,7 @@ describe('expect', () => {
   });
 
   it('shows correct', () => {
-    expect(diff(clean('<div>Hello</div><div>123</div>'), html`<div>${/[a-zA-Z]+/}</div><div>${/[a-zA-Z]+/}</div>`).trim()).to.equal(f(`
+    expect(html`<div>${/[a-zA-Z]+/}</div><div>${/[a-zA-Z]+/}</div>`.diff(clean('<div>Hello</div><div>123</div>'))).to.equal(f(`
        <div>
          Hello
        </div>

@@ -1,8 +1,24 @@
 import { clean } from './util';
+import { createPatch } from 'diff';
 
 function escape(source: RegExp | string) {
   if (source instanceof RegExp) return source.source;
   return source.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+function formatPatch(text: string) {
+  return text
+    .replace(/^([^\n]+)\n([^\n]+)\n/m, '')
+    .replace(/--- \t\n/g, '')     // headers
+    .replace(/\+\+\+ \t\n/g, '')
+    .split('\n')
+    .filter((x) => !x.includes('--- removed'))   // Explanation
+    .filter((x) => !x.includes('+++ added'))
+    .filter((x) => !x.includes('@@ '))
+    .filter((x) => !x.includes('No newline at end of file'))
+    .join('\n')
+    .replace(/\n+$/, '\n')
+    .trim();
 }
 
 export class PatternRegExp extends RegExp {
@@ -26,8 +42,17 @@ export class PatternRegExp extends RegExp {
 
   replace = function (this: PatternRegExp, str: string) {
     return this.matchers.reduce((acc, m, i) => {
-      return str.replace(`__arg${i}__`, `\${${m}}`);
+      return acc.replace(`__arg${i}__`, `\${${m}}`);
     }, str);
+  }
+
+  diff = function (this: PatternRegExp, str: string) {
+    const options = {
+      comparator: (l: string, r: string) => this.compare(l, r)
+    };
+
+    const patch = createPatch('', this.pattern, str, '', '', options as any);
+    return formatPatch(this.replace(patch));
   }
 }
 
