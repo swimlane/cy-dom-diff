@@ -8,31 +8,35 @@ chai.use(chaiDomMatch);
 
 type Options = Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions> | undefined
 
-function logDiff($el: any, re: PatternRegExp, options?: Options) {
+function logDiff(name: string, state: string, $el: any, re: PatternRegExp, options?: Options) {
   if (!re.pattern) {
     throw new Error(`Cannot generate a diff against ${re}`);
   }
 
-  const a = clean(getDom($el), options);
+  const Actual = clean(getDom($el), options);
+  const Expected = re.replace(re.pattern);
+  const Difference = re.diff(Actual);
 
-  const log = Cypress.log({
-    name: 'DOM Diff',
+  Cypress.log({
+    name,
     message: 'DOM Difference',
     $el,
+    // @ts-ignore
+    state,
     consoleProps: () => {
       return {
         Subject: $el,
-        Expected: re.replace(re.pattern),
-        Actual: a,
-        Difference: re.diff(a)
+        Expected,
+        Actual,
+        Difference
       };
-    },
+    }
   });
-
-  log.end();
 }
 
-Cypress.Commands.add('domDiff', { prevSubject: 'element' }, logDiff);
+Cypress.Commands.add('domDiff', { prevSubject: 'element' }, ($el: any, re: PatternRegExp, options?: Options) => {
+  logDiff('domDiff', 'passed', $el, re, options);
+});
 
 Cypress.Commands.add(
   'domMatch',
@@ -44,15 +48,16 @@ Cypress.Commands.add(
       try {
         expect(el).domMatch(re, message, options);
       } catch (e) {
+        // this is a hack to only show the log after all retries have failed
         setTimeout(() => {
           if (!e.onFail) {
-            logDiff(subject, re);
+            logDiff('domMatch', 'failed', subject, re, options);
           }
         });
         throw e;
       }
 
-      logDiff(subject, re);
+      logDiff('domMatch', 'passed', subject, re, options);
     });
   }
 );
