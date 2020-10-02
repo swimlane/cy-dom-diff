@@ -23,7 +23,8 @@
     "open": "cypress open",
     "version": "chg release -y && git add -A CHANGELOG.md",
     "np": "np && npm run clean",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run build"
   },
   "author": "J. Harshbarger",
   "license": "MIT",
