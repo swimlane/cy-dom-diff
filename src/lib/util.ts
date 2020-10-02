@@ -1,5 +1,7 @@
 import { DiffOptions, getDiffableHTML } from '@open-wc/semantic-dom-diff/get-diffable-html';
 
+import unindent from 'strip-indent';
+
 const { isJquery, isElement } = Cypress.dom;
 
 export function getDom($el: any) {
@@ -12,15 +14,17 @@ export function getDom($el: any) {
   return $el; // TODO: errror?
 }
 
-const domparser = new DOMParser()​​;
+const domparser = new DOMParser();
 
-export function clean(html: string, options?: DiffOptions) {
-  const doc = domparser.parseFromString(html, 'text/html');  // converts to a dom node without rendering
-  return getDiffableHTML(doc.body, options);
+export function clean(html: string, options?: DiffOptions): string {
+  // Create a Node using DOMParser to avoid rendering
+  const doc = domparser.parseFromString(`<diff-container>${html}</diff-container>`, 'text/html');
+  return unindent(getDiffableHTML(doc.body.firstChild as Node, options));
 }
 
-export function disambiguateArgs(args: [string | object, object]): [string | undefined, object | undefined] {
-  // @ts-ignore
-  return args.length === 2 ? args :
-    (typeof args[0] === 'object' ? [undefined, args[0]] : [args[0], undefined]);
+export function disambiguateArgs(args: [string | object | undefined, object | undefined]): [string | undefined, object | undefined] {
+  if (args.length === 2) {
+    return args as [string | undefined, object | undefined];
+  }
+  return typeof args[0] === 'object' ? [undefined, args[0]] : [args[0], undefined];
 }

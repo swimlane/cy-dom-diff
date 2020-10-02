@@ -1,8 +1,7 @@
 import { html } from '../../src/lib/matchers';
 import { clean } from '../../src/lib/util';
 
-// @ts-ignore
-import unindent from 'unindent';
+import unindent from 'strip-indent';
 
 function f(s: string): string {
   return unindent(s).trim();

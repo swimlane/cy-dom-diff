@@ -56,7 +56,7 @@ describe('cypress command', () => {
     `);
   });
 
-  it.only('uses options', () => {
+  it('uses options', () => {
     cy.get('#test-6').domMatch(html`
       <div
           class="ng-star-inserted ng-tns-${NGCLASS} ng-trigger ng-trigger-stepAnimation"
