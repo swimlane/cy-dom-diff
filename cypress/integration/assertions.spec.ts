@@ -36,21 +36,29 @@ describe('cypress assertions', () => {
     cy.get('#clock').should('not.domMatch', html`<span>The current time is:</span>\n<span class="clock"></span> <span class="offset">${NUMBER}</span> hrs`);
   });
 
-  it('fails 1', () => {
+  it('fails on static differences', () => {
     cy.fails(() => {
       cy.get('#test-1', { timeout: 0 }).should('domMatch', html`<h1>Hello Earth</h1>`);
     }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /^<h1>\\n  Hello Earth\\n<\\/h1>\\n$/`);
   });
 
-  it('fails 2', () => {
+  it('fails on regex differences', () => {
     cy.fails(() => {
       cy.get('#test-1', { timeout: 0 }).should('domMatch', html`<h1>Hello ${NUMBER}</h1>`);
     }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /^<h1>\\n  Hello [\\+\\-]?\\d*\\.?\\d+(?:[Ee][\\+\\-]?\\d+)?\\n<\\/h1>\\n$/`);
   });
 
-  it('fails 3', () => {
+  it('fails on not domMatch', () => {
     cy.fails(() => {
       cy.get('#test-1', { timeout: 0 }).should('not.domMatch', html`<h1>Hello ${WORD}</h1>`);
     }, `expected '<h1>\\n  Hello World\\n</h1>\\n' not to match /^<h1>\\n  Hello [\\w\\-]+\\n<\\/h1>\\n$/`);
+  });
+
+  it('retries', () => {
+    cy.get('#test-7').within(() => {
+      cy.get('#hello').should('domMatch', /Hello World/);
+      cy.get('button').click();
+      cy.get('#hello').should('domMatch', /Goodbye Earth/);
+    });
   });
 });

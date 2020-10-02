@@ -118,4 +118,18 @@ describe('cypress command', () => {
       cy.get('#test-5').domMatch(html`<h1>Goodbye ${WORD}</h1><h1>Hello ${NUMBER}</h1>`, 'this should match', { timeout: 0 });
     }, 'this should match');
   });
+
+  it('retries', () => {
+    cy.get('#test-7').within(() => {
+      cy.get('#hello').domMatch(html`Hello World`);
+      cy.get('button').click();
+      cy.get('#hello').domMatch(html`Goodbye Earth`);
+    });
+  });
+
+  it('fails if regexp doesn\'t have a pattern', () => {
+    cy.fails(() => {
+      cy.get('#test-5').domMatch(/Hello/);
+    }, 'Cannot generate a diff against /Hello/');
+  });
 });

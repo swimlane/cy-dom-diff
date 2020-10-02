@@ -8,7 +8,7 @@ function f(s: string): string {
 }
 
 describe('diff', () => {
-  it('doesnt shows diff when there is none', () => {
+  it(`doesn't shows diff when there is none`, () => {
     expect(html`<div>Hello World</div>`.diff(clean('<div>Hello World</div>'))).to.equal('');
   });
 
@@ -32,7 +32,7 @@ describe('diff', () => {
        </div>`));
   });
 
-  it('shows correct', () => {
+  it('shows correct mismatch', () => {
     expect(html`<div>${/[a-zA-Z]+/}</div><div>${/[a-zA-Z]+/}</div>`.diff(clean('<div>Hello</div><div>123</div>'))).to.equal(f(`
        <div>
          Hello

@@ -49,6 +49,11 @@
     <span class="clock"></span> <span class="offset"></span> hrs
   </div>
 
+  <div id="test-7" class="test">
+    <h1 id="hello">Hello World</h1>
+    <button id="clickMe">Click Me</button>
+  </div>
+
   <script>
     const $clock = document.getElementsByClassName("clock");
     const $offset = document.getElementsByClassName("offset");
@@ -58,5 +63,14 @@
     }, 1000);
 
     $offset[0].innerHTML = -new Date().getTimezoneOffset() / 60;
+
+    const clickMe = document.getElementById("clickMe");
+    const hello = document.getElementById("hello");
+    clickMe.onclick = function() {
+      setTimeout(() => {
+        hello.innerHTML = 'Goodbye Earth';
+      }, 3000);
+      return false;
+    };
   </script>
 </body>
