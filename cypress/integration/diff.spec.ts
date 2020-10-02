@@ -1,5 +1,5 @@
-import { html } from '../../src/lib/matchers';
-import { clean } from '../../src/lib/util';
+import { html } from '@swimlane/cy-dom-diff';
+import { clean } from '@swimlane/cy-dom-diff/lib/util';
 
 import unindent from 'strip-indent';
 

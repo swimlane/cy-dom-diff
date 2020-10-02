@@ -3,7 +3,6 @@
 
 import faker from 'faker';
 
-// tslint:disable-next-line: no-implicit-dependencies
 import { html, NUMBER, WORD } from '@swimlane/cy-dom-diff';
 
 const NGCLASS = /c\d\d-\d/;

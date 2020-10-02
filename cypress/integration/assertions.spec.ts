@@ -1,7 +1,6 @@
 import faker, { time } from 'faker';
 
-import { html } from '../../src/lib/matchers';
-import { NUMBER, WORD } from '../../src/lib/regexps'
+import { html, NUMBER, WORD } from '@swimlane/cy-dom-diff'
 
 const TIME = /\d?\d:\d?\d\:\d?\d/;
 
