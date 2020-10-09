@@ -20,7 +20,7 @@ export function getDom($el: any) {
 const domparser = new DOMParser();
 
 export function clean(html: string, options?: DiffOptions): string {
-  // Create a Node using DOMParser to avoid rendering
+  // Create a Node using DOMParser to avoid rendering in Cypress
   const doc = domparser.parseFromString(
     `<diff-container>${html}</diff-container>`,
     'text/html'

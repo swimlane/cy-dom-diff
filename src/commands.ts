@@ -12,18 +12,18 @@ type Options =
 
 function logDiff(
   name: string,
-  state: string,
+  state: string | undefined,
   $el: any,
   re: PatternRegExp,
   options?: Options
 ) {
-  if (!re.pattern) {
-    throw new Error(`Cannot generate a diff against ${re}`);
-  }
-
   const Actual = clean(getDom($el), options);
-  const Expected = re.replace(re.pattern);
-  const Difference = re.diff(Actual);
+  const Expected = re.pattern ? re.replace(re.pattern) : re;
+  const Difference = re.diff ? re.diff(Actual) : undefined;
+
+  if (state === undefined) {
+    state = Difference === '' ? 'passed' : 'failed';
+  }
 
   Cypress.log({
     name,
@@ -46,7 +46,7 @@ Cypress.Commands.add(
   'domDiff',
   { prevSubject: 'element' },
   ($el: any, re: PatternRegExp, options?: Options) => {
-    logDiff('domDiff', 'passed', $el, re, options);
+    logDiff('domDiff', undefined, $el, re, options);
   }
 );
 
@@ -59,20 +59,18 @@ Cypress.Commands.add(
       Options | undefined
     ];
 
-    cy.wrap(subject, options).should((el: any) => {
-      try {
-        expect(el).domMatch(re, message, options);
-      } catch (e) {
-        // this is a hack to only show the log after all retries have failed
-        setTimeout(() => {
-          if (!e.onFail) {
-            logDiff('domMatch', 'failed', subject, re, options);
-          }
-        });
-        throw e;
+    const onFail = (err: Error) => {
+      if (err.name === 'AssertionError') {
+        logDiff('domMatch', 'failed', subject, re, options);
       }
+      return err;
+    };
 
-      logDiff('domMatch', 'passed', subject, re, options);
+    cy.wrap(subject, options).should((el: any) => {
+      cy.on('fail', onFail);
+      expect(el).domMatch(re, message, options);
+      cy.removeListener('fail', onFail);
+      logDiff('domMatch', 'passed', subject, re, options);      
     });
   }
 );

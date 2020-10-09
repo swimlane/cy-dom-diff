@@ -70,3 +70,5 @@ export function html(
   }, escape(pattern));
   return new PatternRegExp(`^${source}$`, pattern, args);
 }
+
+export { html as dom }

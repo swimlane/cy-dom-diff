@@ -2,6 +2,6 @@
 
 declare namespace Cypress {
   interface Chainable<Subject> {
-    fails(fn: Function, error: string): Chainable<any>
+    fails(fn: Function, error?: string): Chainable<any>
   }
 }

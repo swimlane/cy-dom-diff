@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import { html, WORD } from '@swimlane/cy-dom-diff';
+import { dom, WORD } from '@swimlane/cy-dom-diff';
 
 const TIME = /\d?\d:\d?\d\:\d?\d/;
 
@@ -25,17 +25,17 @@ describe('expect', () => {
     });
 
     it('matches', () => {
-      expect(el).domMatch(html`<h1>Hello World</h1>`);
+      expect(el).domMatch(dom`<h1>Hello World</h1>`);
     });
 
     it('not matches', () => {
       expect(el).not.domMatch(/Hello Earth/);
-      expect(el).not.domMatch(html`<h1>Hello Earth</h1>`);
+      expect(el).not.domMatch(dom`<h1>Hello Earth</h1>`);
     });
 
     it('matches with regex', () => {
       expect(el).domMatch(/Hello World/);
-      expect(el).domMatch(html`<h1>Hello ${WORD}</h1>`);
+      expect(el).domMatch(dom`<h1>Hello ${WORD}</h1>`);
     });
     
     it('fails', () => {
@@ -61,21 +61,21 @@ describe('expect', () => {
     });
 
     it('matches', () => {
-      expect($el).domMatch(html`<h1>Hello World</h1>`);
+      expect($el).domMatch(dom`<h1>Hello World</h1>`);
     });
 
     it('matches with regex', () => {
       expect($el).domMatch(/Hello World/);
-      expect($el).domMatch(html`<h1>Hello ${WORD}</h1>`);
+      expect($el).domMatch(dom`<h1>Hello ${WORD}</h1>`);
     });
 
     it('not matches', () => {
       expect($el).not.to.domMatch(/Hello Earth/);
-      expect($el).not.to.domMatch(html`<h1>Hello Earth</h1>`);
+      expect($el).not.to.domMatch(dom`<h1>Hello Earth</h1>`);
     });
 
     it('options', () => {
-      expect(Cypress.$('#test-6')).domMatch(html`
+      expect(Cypress.$('#test-6')).domMatch(dom`
         <div class="ng-star-inserted ng-tns-c19-5 ng-trigger ng-trigger-stepAnimation">
           <h1 class="ng-tns-c19-5"></h1>
           <div class="subtext">
