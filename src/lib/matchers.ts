@@ -71,4 +71,4 @@ export function html(
   return new PatternRegExp(`^${source}$`, pattern, args);
 }
 
-export { html as dom }
+export { html as dom };

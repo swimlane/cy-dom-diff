@@ -70,7 +70,7 @@ Cypress.Commands.add(
       cy.on('fail', onFail);
       expect(el).domMatch(re, message, options);
       cy.removeListener('fail', onFail);
-      logDiff('domMatch', 'passed', subject, re, options);      
+      logDiff('domMatch', 'passed', subject, re, options);
     });
   }
 );
