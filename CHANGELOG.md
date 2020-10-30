@@ -2,10 +2,13 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* removed `html`
-* improved `cy.domDiff` ergonomics
+_(none)_
 
 ---
+
+## 1.0.0 (2020-10-30)
+* removed `html`
+* improved `cy.domDiff` ergonomics
 
 ## 0.0.2 (2020-10-09)
 * Doesn't fail when matching against simple regex
