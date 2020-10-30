@@ -2,7 +2,8 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* removed `html`
+* improved `cy.domDiff` ergonomics
 
 ---
 

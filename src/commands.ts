@@ -14,12 +14,12 @@ function logDiff(
   name: string,
   state: string | undefined,
   $el: any,
-  re: PatternRegExp,
+  re?: PatternRegExp,
   options?: Options
 ) {
   const Actual = clean(getDom($el), options);
-  const Expected = re.pattern ? re.replace(re.pattern) : re;
-  const Difference = re.diff ? re.diff(Actual) : undefined;
+  const Expected = re?.pattern ? re.replace(re.pattern) : re;
+  const Difference = re?.diff ? re.diff(Actual) : undefined;
 
   if (state === undefined) {
     state = Difference === '' ? 'passed' : 'failed';
@@ -45,7 +45,7 @@ function logDiff(
 Cypress.Commands.add(
   'domDiff',
   { prevSubject: 'element' },
-  ($el: any, re: PatternRegExp, options?: Options) => {
+  ($el: any, re?: PatternRegExp, options?: Options) => {
     logDiff('domDiff', undefined, $el, re, options);
   }
 );

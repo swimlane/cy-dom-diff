@@ -56,7 +56,7 @@ export class PatternRegExp extends RegExp {
   };
 }
 
-export function html(
+export function dom(
   strings: TemplateStringsArray,
   ...args: any[]
 ): PatternRegExp {
@@ -70,5 +70,3 @@ export function html(
   }, escape(pattern));
   return new PatternRegExp(`^${source}$`, pattern, args);
 }
-
-export { html as dom };

@@ -7,7 +7,7 @@ declare namespace Cypress {
     | undefined;
 
   interface Chainable<Subject> {
-    domDiff(re: RegExp, options?: Options): Chainable<any>;
+    domDiff(re?: RegExp, options?: Options): Chainable<any>;
 
     domMatch(re: RegExp, message: string | Options): Chainable<any>;
     domMatch(re: RegExp, message?: string, options?: Options): Chainable<any>;

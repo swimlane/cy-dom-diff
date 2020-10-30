@@ -73,6 +73,32 @@ describe('cypress commands', () => {
       });
       cy.get('#test-1').domDiff(/Hello Earth/);
     });
+
+    it(`can dom diff on empty dom`, (done) => {
+      cy.on('log:added', (log) => {
+        if (log.name === 'domDiff') {
+          expect(log.state).to.equal('failed');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Difference).equals('+<h1>\n+  Hello World\n+</h1>');
+          expect(log.consoleProps.Expected).deep.equals(/^$/);
+          done();
+        }
+      });
+      cy.get('#test-1').domDiff(dom``);
+    });
+
+    it(`can dom diff on nothing`, (done) => {
+      cy.on('log:added', (log) => {
+        if (log.name === 'domDiff') {
+          expect(log.state).to.equal('failed');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Difference).equals(undefined);
+          expect(log.consoleProps.Expected).deep.equals(undefined);
+          done();
+        }
+      });
+      cy.get('#test-1').domDiff();
+    });
   });
 
   describe('domMatch', () => {
