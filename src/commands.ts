@@ -10,19 +10,19 @@ type Options =
   | Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions>
   | undefined;
 
-function logDiff(
+const logDiff = (
   name: string,
   state: string | undefined,
   $el: any,
   re?: PatternRegExp,
   options?: Options
-) {
-  const Actual = clean(getDom($el), options);
-  const Expected = re?.pattern ? re.replace(re.pattern) : re;
-  const Difference = re?.diff ? re.diff(Actual) : undefined;
+) => {
+  const actual = clean(getDom($el), options);
+  const expected = re?.pattern ? re.replace(re.pattern) : re;
+  const difference = re?.diff ? re.diff(actual) : undefined;
 
   if (state === undefined) {
-    state = Difference === '' ? 'passed' : 'failed';
+    state = difference === '' ? 'passed' : 'failed';
   }
 
   Cypress.log({
@@ -33,14 +33,18 @@ function logDiff(
     state,
     consoleProps: () => {
       return {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         Subject: $el,
-        Expected,
-        Actual,
-        Difference,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Expected: expected,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Actual: actual,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Difference: difference,
       };
     },
   });
-}
+};
 
 Cypress.Commands.add(
   'domDiff',

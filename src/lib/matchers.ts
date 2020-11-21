@@ -1,12 +1,12 @@
 import { clean } from './util';
 import { createPatch } from 'diff';
 
-function escape(source: RegExp | string) {
+const escape = (source: RegExp | string) => {
   if (source instanceof RegExp) return source.source;
   return source.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
+};
 
-function formatPatch(text: string) {
+const formatPatch = (text: string) => {
   return text
     .replace(/^([^\n]+)\n([^\n]+)\n/m, '')
     .replace(/--- \t\n/g, '') // headers
@@ -19,7 +19,7 @@ function formatPatch(text: string) {
     .join('\n')
     .replace(/\n+$/, '\n')
     .trim();
-}
+};
 
 export class PatternRegExp extends RegExp {
   constructor(
@@ -56,10 +56,10 @@ export class PatternRegExp extends RegExp {
   };
 }
 
-export function dom(
+export const dom = (
   strings: TemplateStringsArray,
   ...args: any[]
-): PatternRegExp {
+): PatternRegExp => {
   const result = [strings[0]];
   args.forEach((arg, i) => {
     result.push(`__arg${i}__`, strings[i + 1]);
@@ -69,4 +69,4 @@ export function dom(
     return acc.replace(`__arg${i}__`, escape(arg));
   }, escape(pattern));
   return new PatternRegExp(`^${source}$`, pattern, args);
-}
+};
