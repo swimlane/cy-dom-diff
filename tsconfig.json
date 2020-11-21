@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "target": "es2017",
     "outDir": "./",
-    "module": "es2015",
+    "module": "commonjs",
     "strict": true,
     "lib": ["es2017", "dom"],
     "types": ["cypress"],
@@ -21,6 +21,6 @@
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules/**"],
+  "exclude": ["node_modules/**", ".eslintrc.js"],
   "compileOnSave": false
 }
