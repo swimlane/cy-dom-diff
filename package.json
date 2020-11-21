@@ -12,10 +12,9 @@
     "commands.js"
   ],
   "scripts": {
-    "clean": "trash lib ./*.js",
+    "clean": "trash lib ./command.js ./index.js",
     "build": "run-s clean && run-p build:module",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
+    "build:module": "tsc -p tsconfig.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "eslint -c .eslintrc.js --ext .ts ./src/ --fix",

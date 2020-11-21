@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "target": "es2017",
     "outDir": "./",
-    "module": "commonjs",
+    "module": "es2015",
     "strict": true,
     "lib": ["es2017", "dom"],
     "types": ["cypress"],
