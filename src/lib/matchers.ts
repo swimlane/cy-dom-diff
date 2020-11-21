@@ -4,7 +4,7 @@ import { createPatch } from 'diff';
 const escape = (source: RegExp | string) => {
   if (source instanceof RegExp) return source.source;
   return source.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
+};
 
 const formatPatch = (text: string) => {
   return text
@@ -19,7 +19,7 @@ const formatPatch = (text: string) => {
     .join('\n')
     .replace(/\n+$/, '\n')
     .trim();
-}
+};
 
 export class PatternRegExp extends RegExp {
   constructor(
@@ -69,4 +69,4 @@ export const dom = (
     return acc.replace(`__arg${i}__`, escape(arg));
   }, escape(pattern));
   return new PatternRegExp(`^${source}$`, pattern, args);
-}
+};

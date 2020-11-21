@@ -1,4 +1,3 @@
-
 import {
   DiffOptions,
   getDiffableHTML,
@@ -16,7 +15,7 @@ export const getDom = ($el: any) => {
     return $el.innerHTML;
   }
   return $el; // TODO: errror?
-}
+};
 
 const domparser = new DOMParser();
 
@@ -27,10 +26,13 @@ export const clean = (html: string, options?: DiffOptions): string => {
     'text/html'
   );
   return unindent(getDiffableHTML(doc.body.firstChild as Node, options));
-}
+};
 
 export const disambiguateArgs = (
-  args: [string | Record<string, unknown> | undefined, Record<string, unknown> | undefined]
+  args: [
+    string | Record<string, unknown> | undefined,
+    Record<string, unknown> | undefined
+  ]
 ): [string | undefined, Record<string, unknown> | undefined] => {
   if (args.length === 2) {
     return args as [string | undefined, Record<string, unknown> | undefined];
@@ -38,4 +40,4 @@ export const disambiguateArgs = (
   return typeof args[0] === 'object'
     ? [undefined, args[0]]
     : [args[0], undefined];
-}
+};

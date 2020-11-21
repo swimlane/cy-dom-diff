@@ -44,7 +44,7 @@ const logDiff = (
       };
     },
   });
-}
+};
 
 Cypress.Commands.add(
   'domDiff',
