@@ -21,6 +21,6 @@
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules/**", ".eslintrc.js"],
+  "exclude": ["node_modules/**"],
   "compileOnSave": false
 }
