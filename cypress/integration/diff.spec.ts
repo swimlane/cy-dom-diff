@@ -1,5 +1,4 @@
-import { dom } from '@swimlane/cy-dom-diff';
-import { clean } from '@swimlane/cy-dom-diff/lib/util';
+import { dom, diff, getDiffableHTML } from '@swimlane/dom-diff';
 
 import unindent from 'strip-indent';
 
@@ -9,11 +8,11 @@ function f(s: string): string {
 
 describe('diff', () => {
   it(`doesn't shows diff when there is none`, () => {
-    expect(dom`<div>Hello World</div>`.diff(clean('<div>Hello World</div>'))).to.equal('');
+    expect(diff(dom`<div>Hello World</div>`, getDiffableHTML('<div>Hello World</div>'))).to.equal('');
   });
 
   it('shows diff in static portions', () => {
-    expect(dom`<div>Hello Earth</div>`.diff(clean('<div>Hello World</div>'))).to.equal(f(`
+    expect(diff(dom`<div>Hello Earth</div>`, getDiffableHTML('<div>Hello World</div>'))).to.equal(f(`
        <div>
       -  Hello Earth
       +  Hello World
@@ -21,11 +20,11 @@ describe('diff', () => {
   });
 
   it('returns empty string when regex matches', () => {
-    expect(dom`<div>Hello ${/[a-zA-Z]+/}</div>`.diff(clean('<div>Hello World</div>'))).to.equal('');
+    expect(diff(dom`<div>Hello ${/[a-zA-Z]+/}</div>`, getDiffableHTML('<div>Hello World</div>'))).to.equal('');
   });
 
   it('shows diff in static regexp', () => {
-    expect(dom`<div>Hello ${/[a-zA-Z]+/}</div>`.diff(clean('<div>Hello 123</div>'))).to.equal(f(`
+    expect(diff(dom`<div>Hello ${/[a-zA-Z]+/}</div>`, getDiffableHTML('<div>Hello 123</div>'))).to.equal(f(`
        <div>
       -  Hello \${/[a-zA-Z]+/}
       +  Hello 123
@@ -33,7 +32,7 @@ describe('diff', () => {
   });
 
   it('shows correct mismatch', () => {
-    expect(dom`<div>${/[a-zA-Z]+/}</div><div>${/[a-zA-Z]+/}</div>`.diff(clean('<div>Hello</div><div>123</div>'))).to.equal(f(`
+    expect(diff(dom`<div>${/[a-zA-Z]+/}</div><div>${/[a-zA-Z]+/}</div>`, getDiffableHTML('<div>Hello</div><div>123</div>'))).to.equal(f(`
        <div>
          Hello
        </div>

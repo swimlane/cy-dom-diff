@@ -3,7 +3,8 @@
 
 import faker from 'faker';
 
-import { dom, NUMBER, WORD } from '@swimlane/cy-dom-diff';
+import { dom } from '@swimlane/dom-diff';
+import { NUMBER, WORD } from '@swimlane/cy-dom-diff';
 
 const NGCLASS = /c\d\d-\d/;
 const UUID = /[a-z0-9]+/;
@@ -26,9 +27,9 @@ describe('cypress commands', () => {
       cy.on('log:added', (log) => {
         if (log.name === 'domDiff') {
           expect(log.state).to.equal('passed');
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals('');
-          expect(log.consoleProps.Expected).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Expected).equals('<h1>\n  Hello World\n</h1>');
           done();
         }
       });
@@ -39,9 +40,9 @@ describe('cypress commands', () => {
       cy.on('log:added', (log) => {
         if (log.name === 'domDiff') {
           expect(log.state).to.equal('failed');
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals('<h1>\n-  Hello Earth\n+  Hello World\n </h1>');
-          expect(log.consoleProps.Expected).equals('<h1>\n  Hello Earth\n</h1>\n');
+          expect(log.consoleProps.Expected).equals('<h1>\n  Hello Earth\n</h1>');
           done()
         }
       });
@@ -52,9 +53,9 @@ describe('cypress commands', () => {
       cy.on('log:added', (log) => {
         if (log.name === 'domDiff') {
           expect(log.state).to.equal('failed');
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals('<h1>\n-  Hello \${/\\d+/}\n+  Hello World\n </h1>');
-          expect(log.consoleProps.Expected).equals('<h1>\n  Hello \${/\\d+/}\n</h1>\n');
+          expect(log.consoleProps.Expected).equals('<h1>\n  Hello \${/\\d+/}\n</h1>');
           done();
         }
       });
@@ -65,7 +66,7 @@ describe('cypress commands', () => {
       cy.on('log:added', (log) => {
         if (log.name === 'domDiff') {
           expect(log.state).to.equal('failed');
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals(undefined);
           expect(log.consoleProps.Expected).deep.equals(/Hello Earth/);
           done();
@@ -78,9 +79,9 @@ describe('cypress commands', () => {
       cy.on('log:added', (log) => {
         if (log.name === 'domDiff') {
           expect(log.state).to.equal('failed');
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals('+<h1>\n+  Hello World\n+</h1>');
-          expect(log.consoleProps.Expected).deep.equals(/^$/);
+          expect(log.consoleProps.Expected).equals('');
           done();
         }
       });
@@ -91,7 +92,7 @@ describe('cypress commands', () => {
       cy.on('log:added', (log) => {
         if (log.name === 'domDiff') {
           expect(log.state).to.equal('failed');
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals(undefined);
           expect(log.consoleProps.Expected).deep.equals(undefined);
           done();
@@ -105,9 +106,9 @@ describe('cypress commands', () => {
     it('adds log', (done) => {
       cy.on('log:added', (log) => {
         if (log.name === 'domMatch') {
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals('');
-          expect(log.consoleProps.Expected).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Expected).equals('<h1>\n  Hello World\n</h1>');
           done();
         }
       });
@@ -117,9 +118,9 @@ describe('cypress commands', () => {
     it(`adds log on failed match`, (done) => {
       cy.on('log:added', (log) => {
         if (log.name === 'domMatch') {
-          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>\n');
+          expect(log.consoleProps.Actual).equals('<h1>\n  Hello World\n</h1>');
           expect(log.consoleProps.Difference).equals('<h1>\n-  Hello Earth\n+  Hello World\n </h1>');
-          expect(log.consoleProps.Expected).equals('<h1>\n  Hello Earth\n</h1>\n');
+          expect(log.consoleProps.Expected).equals('<h1>\n  Hello Earth\n</h1>');
           done();
         }
       });

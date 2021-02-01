@@ -41,7 +41,7 @@ describe('expect', () => {
     it('fails', () => {
       cy.fails(() => {
         expect(el).domMatch(/Hello Earth/);
-      }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /Hello Earth/`);
+      }, `expected '<h1>\\n  Hello World\\n</h1>' to match /Hello Earth/`);
     });
 
     it('fails with message', () => {
@@ -95,7 +95,7 @@ describe('expect', () => {
     it('fails', () => {
       cy.fails(() => {
         expect($el).domMatch(/Hello Earth/);
-      }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /Hello Earth/`);
+      }, `expected '<h1>\\n  Hello World\\n</h1>' to match /Hello Earth/`);
     });
   });
 

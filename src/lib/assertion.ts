@@ -1,6 +1,8 @@
+import { getDiffableHTML } from '@swimlane/dom-diff';
+
 import { DiffOptions } from '@open-wc/semantic-dom-diff/get-diffable-html';
 
-import { getDom, clean, disambiguateArgs } from './util';
+import { getDom, disambiguateArgs } from './util';
 
 export const chaiDomMatch = (chai: Chai.ChaiStatic, utils: Chai.ChaiUtils) => {
   function assertDomMatch(
@@ -13,7 +15,7 @@ export const chaiDomMatch = (chai: Chai.ChaiStatic, utils: Chai.ChaiUtils) => {
     const negate = utils.flag(this, 'negate');
     const object = utils.flag(this, 'object');
 
-    const dom = clean(getDom(object), options);
+    const dom = getDiffableHTML(getDom(object), options);
 
     if (negate) {
       new chai.Assertion(dom).not.match(re, message);

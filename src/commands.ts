@@ -1,7 +1,8 @@
 import { DiffOptions } from '@open-wc/semantic-dom-diff/get-diffable-html';
 
-import { PatternRegExp } from './lib/matchers';
-import { clean, disambiguateArgs, getDom } from './lib/util';
+import { diff, getDiffableHTML, PatternRegExp } from '@swimlane/dom-diff';
+
+import { disambiguateArgs, getDom } from './lib/util';
 import { chaiDomMatch } from './lib/assertion';
 
 chai.use(chaiDomMatch);
@@ -17,9 +18,10 @@ const logDiff = (
   re?: PatternRegExp,
   options?: Options
 ) => {
-  const actual = clean(getDom($el), options);
-  const expected = re?.pattern ? re.replace(re.pattern) : re;
-  const difference = re?.diff ? re.diff(actual) : undefined;
+  console.log({ ...re });
+  const actual = getDiffableHTML(getDom($el), options);
+  const expected = re?.matchers ? re.expected : re;
+  const difference = re?.matchers ? diff(re, actual) : undefined;
 
   if (state === undefined) {
     state = difference === '' ? 'passed' : 'failed';

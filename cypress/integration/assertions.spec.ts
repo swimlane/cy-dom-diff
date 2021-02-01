@@ -1,6 +1,13 @@
 import faker from 'faker';
 
-import { dom, NUMBER, WORD } from '@swimlane/cy-dom-diff'
+import { dom } from '@swimlane/dom-diff';
+import { NUMBER, WORD } from '@swimlane/cy-dom-diff';
+
+import unindent from 'strip-indent';
+
+function f(s: string): string {
+  return unindent(s).trim();
+}
 
 const TIME = /\d?\d:\d?\d\:\d?\d/;
 
@@ -38,19 +45,19 @@ describe('cypress assertions', () => {
   it('fails on static differences', () => {
     cy.fails(() => {
       cy.get('#test-1', { timeout: 0 }).should('domMatch', dom`<h1>Hello Earth</h1>`);
-    }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /^<h1>\\n  Hello Earth\\n<\\/h1>\\n$/`);
+    }, `expected '<h1>\\n  Hello World\\n</h1>' to match /^<h1>\\n  Hello Earth\\n<\\/h1>$/`);
   });
 
   it('fails on regex differences', () => {
     cy.fails(() => {
       cy.get('#test-1', { timeout: 0 }).should('domMatch', dom`<h1>Hello ${NUMBER}</h1>`);
-    }, `expected '<h1>\\n  Hello World\\n</h1>\\n' to match /^<h1>\\n  Hello [\\+\\-]?\\d*\\.?\\d+(?:[Ee][\\+\\-]?\\d+)?\\n<\\/h1>\\n$/`);
+    }, `expected '<h1>\\n  Hello World\\n</h1>' to match /^<h1>\\n  Hello [\\+\\-]?\\d*\\.?\\d+(?:[Ee][\\+\\-]?\\d+)?\\n<\\/h1>$/`);
   });
 
   it('fails on not domMatch', () => {
     cy.fails(() => {
       cy.get('#test-1', { timeout: 0 }).should('not.domMatch', dom`<h1>Hello ${WORD}</h1>`);
-    }, `expected '<h1>\\n  Hello World\\n</h1>\\n' not to match /^<h1>\\n  Hello [\\w\\-]+\\n<\\/h1>\\n$/`);
+    }, `expected '<h1>\\n  Hello World\\n</h1>' not to match /^<h1>\\n  Hello [\\w\\-]+\\n<\\/h1>$/`);
   });
 
   it('retries', () => {
