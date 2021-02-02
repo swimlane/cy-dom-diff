@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Fixed bug causing uncaught failures in Cypress 6
+_(none)_
 
 ---
+
+## 1.0.1 (2021-02-01)
+* Fixed bug causing uncaught failures in Cypress 6
 
 ## 1.0.0 (2020-10-30)
 * removed `html`
