@@ -1,6 +1,6 @@
 {
   "name": "@swimlane/cy-dom-diff",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "matching chunks of DOM against HTML; including dynamic content.",
   "main": "index.js",
   "module": "index.js",

@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Possible breaking: Replaced @open-wc/sematic-dom-diff with @swimlane/dom-diff
+_(none)_
 
 ---
+
+## 2.0.0 (2021-02-02)
+* Possible breaking: Replaced @open-wc/sematic-dom-diff with @swimlane/dom-diff
 
 ## 1.0.1 (2021-02-01)
 * Fixed bug causing uncaught failures in Cypress 6
