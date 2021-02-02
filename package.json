@@ -18,7 +18,7 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "eslint -c .eslintrc.js --ext .ts ./src/ --fix",
-    "test": "run-s test:*",
+    "test": "run-s build test:*",
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:lint": "eslint -c .eslintrc.js --ext .ts ./src/",
     "test:unit": "cypress run",
@@ -31,8 +31,7 @@
   "author": "J. Harshbarger",
   "license": "MIT",
   "dependencies": {
-    "@open-wc/semantic-dom-diff": "^0.18.0",
-    "diff": "^4.0.2",
+    "@swimlane/dom-diff": "^1.0.1",
     "strip-indent": "^3.0.0"
   },
   "devDependencies": {
@@ -42,7 +41,7 @@
     "@typescript-eslint/eslint-plugin-tslint": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
     "chg": "^0.4.0",
-    "cypress": "^5.6.0",
+    "cypress": "^6.4.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",

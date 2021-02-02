@@ -1,2 +1,2 @@
 export * from './lib/regexps';
-export * from './lib/matchers';
+export { dom, PatternRegExp } from '@swimlane/dom-diff';

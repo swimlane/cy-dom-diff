@@ -1,6 +1,9 @@
-import { DiffOptions } from '@open-wc/semantic-dom-diff/get-diffable-html';
-
-import { diff, getDiffableHTML, PatternRegExp } from '@swimlane/dom-diff';
+import {
+  diff,
+  getDiffableHTML,
+  PatternRegExp,
+  ProcessorOptions,
+} from '@swimlane/dom-diff';
 
 import { disambiguateArgs, getDom } from './lib/util';
 import { chaiDomMatch } from './lib/assertion';
@@ -8,7 +11,7 @@ import { chaiDomMatch } from './lib/assertion';
 chai.use(chaiDomMatch);
 
 type Options =
-  | Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions>
+  | Partial<Cypress.Loggable & Cypress.Timeoutable & ProcessorOptions>
   | undefined;
 
 const logDiff = (
@@ -18,7 +21,6 @@ const logDiff = (
   re?: PatternRegExp,
   options?: Options
 ) => {
-  console.log({ ...re });
   const actual = getDiffableHTML(getDom($el), options);
   const expected = re?.matchers ? re.expected : re;
   const difference = re?.matchers ? diff(re, actual) : undefined;

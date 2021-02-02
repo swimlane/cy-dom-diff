@@ -1,1 +1,1 @@
-export * from '@swimlane/dom-diff';
+export { dom, PatternRegExp } from '@swimlane/dom-diff';

@@ -1,8 +1,12 @@
 declare namespace Chai {
-  type DiffOptions = import('@open-wc/semantic-dom-diff/get-diffable-html').DiffOptions;
+  type ProcessorOptions = import('@swimlane/dom-diff').ProcessorOptions;
 
   interface Assertion {
-    domMatch(re: RegExp, message?: string | DiffOptions): Assertion;
-    domMatch(re: RegExp, message?: string, options?: DiffOptions): Assertion;
+    domMatch(re: RegExp, message?: string | ProcessorOptions): Assertion;
+    domMatch(
+      re: RegExp,
+      message?: string,
+      options?: ProcessorOptions
+    ): Assertion;
   }
 }

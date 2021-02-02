@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
 declare namespace Cypress {
-  type DiffOptions = import('@open-wc/semantic-dom-diff/get-diffable-html').DiffOptions;
+  type ProcessorOptions = import('@swimlane/dom-diff').ProcessorOptions;
   type Options =
-    | Partial<Cypress.Loggable & Cypress.Timeoutable & DiffOptions>
+    | Partial<Cypress.Loggable & Cypress.Timeoutable & ProcessorOptions>
     | undefined;
 
   interface Chainable<Subject> {
