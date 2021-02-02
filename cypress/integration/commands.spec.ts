@@ -103,6 +103,10 @@ describe('cypress commands', () => {
   });
 
   describe('domMatch', () => {
+    it('passes', () => {
+      cy.get('#test-1').domMatch(dom`<h1>Hello World</h1>`);
+    });
+
     it('adds log', (done) => {
       cy.on('log:added', (log) => {
         if (log.name === 'domMatch') {
@@ -126,7 +130,7 @@ describe('cypress commands', () => {
       });
 
       cy.fails(() => {
-        cy.get('#test-1').domMatch(dom`<h1>Hello Earth</h1>`, { timeout: 0 });
+        cy.get('#test-1').domMatch(dom`<h1>Hello Earth</h1>`, { timeout: 100 });
       });
     });
 
