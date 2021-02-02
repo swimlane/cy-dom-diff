@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Possible breaking: Replaced @open-wc/sematic-dom-diff with @swimlane/dom-diff
 
 ---
 
