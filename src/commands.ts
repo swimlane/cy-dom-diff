@@ -67,13 +67,11 @@ Cypress.Commands.add(
       if (err.name === 'AssertionError') {
         logDiff('domMatch', 'failed', subject, re, options);
       }
-      return err;
     };
 
-    cy.wrap(subject, options).should((el: any) => {
-      cy.on('fail', onFail);
+    // @ts-ignore
+    return cy.wrap(subject, { ...options, onFail }).should((el: any) => {
       expect(el).domMatch(re, message, options);
-      cy.removeListener('fail', onFail);
       logDiff('domMatch', 'passed', subject, re, options);
     });
   }

@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Fixed bug causing uncaught failures in Cypress 6
 
 ---
 
